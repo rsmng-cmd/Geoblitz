@@ -1,0 +1,12 @@
+{
+  "background_color": "#ffffff",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "GeoBlitz",
+  "orientation": "any",
+  "scope": "/",
+  "short_name": "GeoBlitz",
+  "start_url": "/",
+  "theme_color": "#0a0e1a",
+  "id": "cografya"
+}
