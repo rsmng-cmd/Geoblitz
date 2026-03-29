@@ -431,6 +431,27 @@
   .mp-input { width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:11px 14px;color:var(--text);font-family:'Lato',sans-serif;font-size:.95rem;margin-bottom:12px;outline:none;transition:border .2s; }
   .mp-input:focus { border-color:#2196F3; }
   .mp-input::placeholder { color:var(--muted); }
+  /* Lobi listesi */
+  #mp-lobby-list { display:flex;flex-direction:column;gap:8px;max-height:260px;overflow-y:auto;margin-bottom:12px; }
+  .mp-lobby-card { display:flex;align-items:center;justify-content:space-between;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:10px 14px;cursor:pointer;transition:border-color .15s,background .15s;gap:8px; }
+  .mp-lobby-card:hover { border-color:#2196F3;background:rgba(33,150,243,.07); }
+  .mp-lobby-card.locked { cursor:default;opacity:.7; }
+  .mp-lobby-card.locked:hover { border-color:var(--border);background:var(--bg); }
+  .mp-lobby-card-name { font-family:'Bebas Neue',cursive;font-size:1.1rem;letter-spacing:1px;color:var(--text); }
+  .mp-lobby-card-info { font-size:.72rem;color:var(--muted);margin-top:1px; }
+  .mp-lobby-card-right { display:flex;align-items:center;gap:6px;flex-shrink:0; }
+  .mp-lobby-card-players { font-family:'Bebas Neue',cursive;font-size:.95rem;color:var(--accent); }
+  .mp-lobby-card-lock { font-size:1rem; }
+  .mp-lobby-empty { text-align:center;color:var(--muted);font-size:.82rem;padding:20px 0; }
+  /* Toggle switch */
+  .mp-toggle-row { display:flex;align-items:center;justify-content:space-between;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px 14px;margin-bottom:12px; }
+  .mp-toggle-label { font-size:.9rem;color:var(--text); }
+  .mp-toggle { position:relative;width:44px;height:24px;flex-shrink:0; }
+  .mp-toggle input { opacity:0;width:0;height:0; }
+  .mp-toggle-slider { position:absolute;inset:0;background:var(--border);border-radius:24px;cursor:pointer;transition:.2s; }
+  .mp-toggle-slider:before { content:'';position:absolute;width:18px;height:18px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.2s; }
+  .mp-toggle input:checked + .mp-toggle-slider { background:#2196F3; }
+  .mp-toggle input:checked + .mp-toggle-slider:before { transform:translateX(20px); }
   .mp-error { color:var(--red);font-size:.82rem;margin-bottom:10px;min-height:18px;text-align:center; }
   .mp-code-display { font-family:'Bebas Neue',cursive;font-size:3rem;letter-spacing:8px;color:#2196F3;text-align:center;padding:16px;background:var(--bg);border:2px solid #2196F3;border-radius:12px;margin-bottom:16px;cursor:pointer; }
   .mp-code-display:hover { background:rgba(33,150,243,.1); }
@@ -454,6 +475,26 @@
   #mp-result-overlay.show { display:flex; }
   #mp-result-box { background:var(--panel);border:1px solid var(--border);border-radius:20px;padding:36px 40px;max-width:460px;width:92%;text-align:center; }
   #mp-result-box h2 { font-family:'Bebas Neue',cursive;font-size:2.2rem;letter-spacing:4px;margin-bottom:20px; }
+  .rank-badge { display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:12px;font-family:'Bebas Neue',cursive;font-size:.9rem;letter-spacing:1px; }
+  .rank-bronze1 { background:rgba(180,100,40,.2);color:#cd7f32;border:1px solid rgba(205,127,50,.4); }
+  .rank-bronze2 { background:rgba(180,100,40,.25);color:#cd7f32;border:1px solid rgba(205,127,50,.5); }
+  .rank-bronze3 { background:rgba(180,100,40,.3);color:#b87333;border:1px solid rgba(184,115,51,.5); }
+  .rank-silver1 { background:rgba(180,180,180,.15);color:#c0c0c0;border:1px solid rgba(192,192,192,.4); }
+  .rank-silver2 { background:rgba(180,180,180,.2);color:#c0c0c0;border:1px solid rgba(192,192,192,.5); }
+  .rank-silver3 { background:rgba(180,180,180,.25);color:#d0d0d0;border:1px solid rgba(208,208,208,.5); }
+  .rank-gold1   { background:rgba(240,165,0,.15);color:var(--accent);border:1px solid rgba(240,165,0,.4); }
+  .rank-gold2   { background:rgba(240,165,0,.2);color:var(--accent);border:1px solid rgba(240,165,0,.5); }
+  .rank-gold3   { background:rgba(240,165,0,.3);color:#ffd700;border:1px solid rgba(255,215,0,.6); }
+  .rank-unranked { background:rgba(100,100,100,.15);color:var(--muted);border:1px solid var(--border); }
+  #mp-rank-change { text-align:center;font-size:1.1rem;margin:10px 0;min-height:28px; }
+  .rank-up   { color:#4caf50;font-family:'Bebas Neue',cursive;letter-spacing:2px; }
+  .rank-down { color:#f44336;font-family:'Bebas Neue',cursive;letter-spacing:2px; }
+  .mm-rank-grid { display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px; }
+  .mm-rank-card { background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:10px 12px;text-align:center;cursor:pointer;transition:border-color .15s; }
+  .mm-rank-card:hover { border-color:var(--accent); }
+  .mm-rank-card.selected { border-color:var(--accent);background:rgba(240,165,0,.08); }
+  .mm-rank-card-mode { font-size:1.2rem;margin-bottom:2px; }
+  .mm-rank-card-name { font-family:'Bebas Neue',cursive;font-size:.85rem;letter-spacing:1px;color:var(--muted); }
   .mp-result-row { display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:10px;margin-bottom:8px; }
   .mp-result-row.winner { background:rgba(240,165,0,.1);border:1px solid rgba(240,165,0,.3); }
   .mp-result-rank { font-family:'Bebas Neue',cursive;font-size:1.5rem;width:36px;text-align:center;flex-shrink:0; }
@@ -616,21 +657,49 @@
 <div id="auth-modal">
   <div id="auth-box">
     <h2>🌍 GEOBLITZ</h2>
-    <div class="auth-subtitle" id="auth-subtitle">Skor tablosunda yer almak için giriş yap</div>
-    <!-- Dil Seçici - Giriş öncesi -->
+    <div class="auth-subtitle" id="auth-subtitle">Giriş yap veya kayıt ol</div>
     <div id="auth-lang-selector" style="display:flex;gap:8px;justify-content:center;margin-bottom:18px;">
-      <button id="auth-lang-tr" onclick="setLang('tr')" style="background:rgba(240,165,0,.12);border:2px solid var(--accent);border-radius:8px;padding:6px 14px;color:var(--accent);font-family:'Bebas Neue',cursive;font-size:.9rem;letter-spacing:1px;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;">🇹🇷 TÜRKÇE</button>
-      <button id="auth-lang-en" onclick="setLang('en')" style="background:transparent;border:2px solid var(--border);border-radius:8px;padding:6px 14px;color:var(--muted);font-family:'Bebas Neue',cursive;font-size:.9rem;letter-spacing:1px;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;">ENGLISH 🇬🇧</button>
+      <button id="auth-lang-tr" onclick="setLang('tr')" style="background:rgba(240,165,0,.12);border:2px solid var(--accent);border-radius:8px;padding:6px 14px;color:var(--accent);font-family:'Bebas Neue',cursive;font-size:.9rem;letter-spacing:1px;cursor:pointer;touch-action:manipulation;">🇹🇷 TÜRKÇE</button>
+      <button id="auth-lang-en" onclick="setLang('en')" style="background:transparent;border:2px solid var(--border);border-radius:8px;padding:6px 14px;color:var(--muted);font-family:'Bebas Neue',cursive;font-size:.9rem;letter-spacing:1px;cursor:pointer;touch-action:manipulation;">ENGLISH 🇬🇧</button>
     </div>
-    <div class="auth-tabs">
-      <button class="auth-tab active" onclick="switchAuthTab('login')">GİRİŞ YAP</button>
-      <button class="auth-tab" onclick="switchAuthTab('register')">KAYIT OL</button>
+
+    <!-- Giriş / Kayıt ekranı -->
+    <div id="auth-screen-main">
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="auth-tab-login" onclick="switchAuthTab('login')">GİRİŞ YAP</button>
+        <button class="auth-tab" id="auth-tab-register" onclick="switchAuthTab('register')">KAYIT OL</button>
+      </div>
+      <div class="auth-error" id="auth-error"></div>
+      <!-- Login: e-posta veya kullanıcı adı -->
+      <input class="auth-input" id="auth-identifier" type="text" placeholder="E-posta veya kullanıcı adı" autocomplete="username" style="display:block;"/>
+      <!-- Kayıt: e-posta zorunlu (ayrıca göster) -->
+      <input class="auth-input" id="auth-email" type="email" placeholder="E-posta" autocomplete="email" style="display:none;"/>
+      <input class="auth-input" id="auth-password" type="password" placeholder="Şifre" maxlength="40" autocomplete="current-password"/>
+      <button class="auth-submit" id="auth-submit-btn" onclick="authSubmit()">DEVAM</button>
+      <div style="text-align:center;margin-top:8px;">
+        <a id="auth-forgot-link" onclick="showForgotPassword()" style="color:var(--muted);font-size:.8rem;cursor:pointer;text-decoration:underline;">Şifremi unuttum</a>
+      </div>
+      <div class="auth-guest" id="auth-guest-line">ya da <a onclick="authGuest()" style="touch-action:manipulation;-webkit-tap-highlight-color:transparent;">misafir olarak oyna</a></div>
     </div>
-    <div class="auth-error" id="auth-error"></div>
-    <input class="auth-input" id="auth-username" type="text" placeholder="Kullanıcı adı" maxlength="20" autocomplete="off"/>
-    <input class="auth-input" id="auth-password" type="password" placeholder="Şifre" maxlength="40"/>
-    <button class="auth-submit" onclick="authSubmit()">DEVAM</button>
-    <div class="auth-guest" id="auth-guest-line">ya da <a onclick="authGuest()" style="touch-action:manipulation;-webkit-tap-highlight-color:transparent;">misafir olarak oyna</a></div>
+
+    <!-- Kullanıcı adı ekranı (kayıt sonrası) -->
+    <div id="auth-screen-username" style="display:none;">
+      <div style="font-size:.9rem;color:var(--muted);margin-bottom:16px;text-align:center;" id="auth-username-subtitle">Liderlik tablosunda görünecek kullanıcı adını seç</div>
+      <div class="auth-error" id="auth-username-error"></div>
+      <input class="auth-input" id="auth-username-input" type="text" placeholder="Kullanıcı adı (2-20 karakter)" maxlength="20" autocomplete="off"/>
+      <button class="auth-submit" id="auth-username-btn" onclick="authSetUsername()">DEVAM</button>
+    </div>
+
+    <!-- Şifre sıfırlama ekranı -->
+    <div id="auth-screen-forgot" style="display:none;">
+      <div style="font-size:.9rem;color:var(--muted);margin-bottom:16px;text-align:center;" id="auth-forgot-subtitle">E-posta adresine şifre sıfırlama linki gönderilecek</div>
+      <div class="auth-error" id="auth-forgot-error"></div>
+      <input class="auth-input" id="auth-forgot-email" type="email" placeholder="E-posta"/>
+      <button class="auth-submit" id="auth-forgot-btn" onclick="authSendReset()">GÖNDER</button>
+      <div style="text-align:center;margin-top:8px;">
+        <a onclick="showAuthMain()" style="color:var(--muted);font-size:.8rem;cursor:pointer;text-decoration:underline;" id="auth-back-link">← Geri</a>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -739,6 +808,7 @@
 
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 <script>
 // Global hata yakalayıcı - sessiz crash'leri önle
 window.onerror = function(msg, src, line, col, err) {
@@ -762,7 +832,32 @@ const firebaseConfig = {
 try {
   firebase.initializeApp(firebaseConfig);
 } catch(e) { console.warn('Firebase init error:', e); }
-const db = (typeof firebase !== 'undefined' && firebase.apps && firebase.apps.length) ? firebase.firestore() : null;
+const db   = (typeof firebase !== 'undefined' && firebase.apps && firebase.apps.length) ? firebase.firestore() : null;
+const auth = (typeof firebase !== 'undefined' && firebase.apps && firebase.apps.length) ? firebase.auth() : null;
+
+// Firebase Auth state — sayfa yüklenince aktif oturumu kontrol et
+let _loggingOut = false; // logout sırasında listener'ı engelle
+if (auth) {
+  auth.onAuthStateChanged(async (fireUser) => {
+    if (_loggingOut) return; // logout sırasında tetiklenmesin
+    if (fireUser && !currentUser) {
+      try {
+        const mapSnap = await db.collection('uid_to_username').doc(fireUser.uid).get();
+        if (mapSnap.exists) {
+          const key = mapSnap.data().key;
+          const userSnap = await db.collection('users').doc(key).get();
+          if (userSnap.exists) {
+            currentUser = userSnap.data();
+            const authModal = document.getElementById('auth-modal');
+            if (authModal && !authModal.classList.contains('hidden')) {
+              onAuthSuccess();
+            }
+          }
+        }
+      } catch(e) { console.warn('Auto-login error:', e); }
+    }
+  });
+}
 
 // ===== İNGİLİZCE ÇEVİRİ =====
 const COUNTRY_EN = {
@@ -1029,6 +1124,17 @@ const T = {
     mpNextQ: '▶ SONRAKİ SORU',
     mpSeeFinal: '🏆 FİNAL SONUÇLARINI GÖR',
     mpLastQ: (n, pts) => `Q${n}'de +${pts}`,
+    mpMatchmaking: '⚡ RASTGELE EŞLEŞTİR',
+    mpBrowse: '🌐 AKTİF LOBİLER',
+    mpJoinByCode: '🔗 KOD İLE KATIL',
+    mpMatchmakingSelectSub: 'Mod seç ve rankını gör',
+    mpStartSearch: '🔍 EŞLEŞTİR',
+    mpCancel: '✕ İPTAL',
+    mpBrowseTitle: '🌐 AKTİF LOBİLER',
+    mpRefresh: '🔄 YENİLE',
+    mpBackBtn: '← GERİ',
+    mpResume: '▶ OYUNA DEVAM ET',
+    mpLeaveBtn: 'LOBİDEN AYRIL',
   },
   en: {
     play: 'PLAY', leaderboard: '🏆 LEADERBOARD', logout: 'LOG OUT',
@@ -1121,12 +1227,24 @@ const T = {
     mpNextQ: '▶ NEXT QUESTION',
     mpSeeFinal: '🏆 SEE FINAL RESULTS',
     mpLastQ: (n, pts) => `+${pts} on Q${n}`,
+    mpMatchmaking: '⚡ QUICK MATCH',
+    mpBrowse: '🌐 ACTIVE LOBBIES',
+    mpJoinByCode: '🔗 JOIN WITH CODE',
+    mpMatchmakingSelectSub: 'Select mode and see your rank',
+    mpStartSearch: '🔍 FIND MATCH',
+    mpCancel: '✕ CANCEL',
+    mpBrowseTitle: '🌐 ACTIVE LOBBIES',
+    mpRefresh: '🔄 REFRESH',
+    mpBackBtn: '← BACK',
+    mpResume: '▶ CONTINUE',
+    mpLeaveBtn: 'LEAVE LOBBY',
   }
 };
 
 function t(key, ...args) {
-  const val = T[lang][key];
-  return typeof val === 'function' ? val(...args) : (val || key);
+  const val = (T[lang] && T[lang][key]) || (T['tr'][key]) || undefined;
+  if (val === undefined) return ''; // key bulunamazsa boş döndür (key adını gösterme)
+  return typeof val === 'function' ? val(...args) : val;
 }
 
 function setLang(l) {
@@ -1155,11 +1273,17 @@ function setLang(l) {
 function applyLang() {
   // Auth modal
   (document.getElementById('auth-subtitle')||{}).textContent = t('authSubtitle');
-  const _tabs=document.querySelectorAll('.auth-tab'); if(_tabs[0]) _tabs[0].textContent=t('loginTab');
+  const _tabs=document.querySelectorAll('.auth-tab');
+  if(_tabs[0]) _tabs[0].textContent=t('loginTab');
+  if(_tabs[1]) _tabs[1].textContent=t('registerTab');
+  if(document.getElementById('auth-forgot-link')) document.getElementById('auth-forgot-link').textContent = lang==='en'?'Forgot password?':'Şifremi unuttum';
+  if(document.getElementById('auth-back-link')) document.getElementById('auth-back-link').textContent = lang==='en'?'← Back':'← Geri';
+  if(document.getElementById('auth-forgot-btn')) document.getElementById('auth-forgot-btn').textContent = lang==='en'?'SEND':'GÖNDER';
+  if(document.getElementById('auth-username-btn') && !document.getElementById('auth-username-btn').disabled) document.getElementById('auth-username-btn').textContent = t('submit');
   if(_tabs[1]) _tabs[1].textContent=t('registerTab');
   (document.getElementById('auth-username')||{}).placeholder = t('userPlaceholder');
   (document.getElementById('auth-password')||{}).placeholder = t('passPlaceholder');
-  (document.querySelector('.auth-submit')||{}).textContent = t('submit');
+  const _asb = document.getElementById('auth-submit-btn'); if(_asb && !_asb.disabled) _asb.textContent = t('submit');
   const guestLine = document.getElementById('auth-guest-line');
   if (guestLine) {
     guestLine.innerHTML = (lang === 'tr' ? 'ya da ' : 'or ') + '<a onclick="authGuest()">' + t('guestLink') + '</a>';
@@ -1227,7 +1351,7 @@ function applyLang() {
   if (el3('mp-main-h2'))        el3('mp-main-h2').textContent        = t('mpMainTitle');
   if (el3('mp-main-sub'))       el3('mp-main-sub').textContent       = t('mpMainSub');
   if (el3('mp-btn-create'))     el3('mp-btn-create').textContent     = t('mpCreateBtn');
-  if (el3('mp-btn-join'))       el3('mp-btn-join').textContent       = t('mpJoinBtn');
+  // mp-btn-join el4 bloğunda güncelleniyor
   if (el3('mp-btn-back-main'))  el3('mp-btn-back-main').textContent  = t('mpBack');
   if (el3('mp-create-h2'))      el3('mp-create-h2').textContent      = t('mpCreateTitle');
   if (el3('mp-create-sub'))     el3('mp-create-sub').textContent     = t('mpCreateSub');
@@ -1248,10 +1372,63 @@ function applyLang() {
   if (el3('mp-leave-btn'))      el3('mp-leave-btn').textContent      = t('mpLeave');
   if (el3('mp-result-title'))   el3('mp-result-title').textContent   = t('mpGameOver');
   if (el3('mp-back-menu-btn'))  el3('mp-back-menu-btn').textContent  = t('mpBackMenu');
+  const lbTabW  = document.getElementById('lb-tab-world');
+  if (lbTabW)  lbTabW.textContent  = lang==='tr' ? '🌍 DÜNYA'    : '🌍 WORLD';
+  const lbTabTr = document.getElementById('lb-tab-turkey');
+  if (lbTabTr) lbTabTr.textContent = lang==='tr' ? '🇹🇷 TÜRKİYE' : '🇹🇷 TURKEY';
   const lbTabLm = document.getElementById('lb-tab-landmark');
   if (lbTabLm) lbTabLm.textContent = lang==='tr' ? '🏛️ HARİKALAR' : '🏛️ WONDERS';
   const lbTabFl = document.getElementById('lb-tab-flag');
   if (lbTabFl) lbTabFl.textContent = lang==='tr' ? '🚩 BAYRAK' : '🚩 FLAGS';
+
+  // MP — yeni ekranlar
+  const el4 = (id) => document.getElementById(id);
+  if (el4('mp-btn-matchmaking')) el4('mp-btn-matchmaking').textContent = t('mpMatchmaking');
+  if (el4('mp-btn-browse'))      el4('mp-btn-browse').textContent      = t('mpBrowse');
+  if (el4('mp-btn-join'))        el4('mp-btn-join').textContent        = t('mpJoinByCode');
+  if (el4('mp-mm-select-sub'))   el4('mp-mm-select-sub').textContent   = t('mpMatchmakingSelectSub');
+  if (el4('mm-start-search-btn'))el4('mm-start-search-btn').textContent= t('mpStartSearch');
+  if (el4('mp-mm-cancel'))       el4('mp-mm-cancel').textContent       = t('mpCancel');
+  if (el4('mp-browse-h2'))       el4('mp-browse-h2').textContent       = t('mpBrowseTitle');
+  if (el4('mp-browse-refresh'))  el4('mp-browse-refresh').textContent  = t('mpRefresh');
+  if (el4('mp-back-browse'))     el4('mp-back-browse').textContent     = t('mpBackBtn');
+  if (el4('mp-back-create'))     el4('mp-back-create').textContent     = t('mpBackBtn');
+  if (el4('mp-back-join'))       el4('mp-back-join').textContent       = t('mpBackBtn');
+  if (el4('mm-btn-resume'))      el4('mm-btn-resume').textContent      = t('mpResume');
+  if (el4('mp-leave-btn'))       el4('mp-leave-btn').textContent       = t('mpLeaveBtn');
+  if (el4('mp-join-h2'))         el4('mp-join-h2').textContent         = t('mpJoinByCode');
+  // Expand range button labels
+  const expandLabel = el4('mp-mm-expand-label');
+  if (expandLabel && expandLabel.dataset.i18n !== 'active') {
+    expandLabel.textContent = lang==='en' ? 'No opponent found nearby. Expand rank range?' : 'Yakın rakip bulunamadı. Rank aralığı genişletilsin mi?';
+  }
+  const expandYes = el4('mp-mm-expand-yes');
+  if (expandYes) expandYes.textContent = lang==='en' ? '✓ YES' : '✓ EVET';
+  const expandNo = el4('mp-mm-expand-no');
+  if (expandNo) expandNo.textContent = lang==='en' ? '✕ NO' : '✕ HAYIR';
+
+  // Lobi oluşturma ekranı
+  if (el4('mp-create-private-label')) el4('mp-create-private-label').innerHTML = lang==='en' ? '🔒 Password protect' : '🔒 Şifreli lobi';
+  if (el4('mp-create-name')) el4('mp-create-name').placeholder = lang==='en' ? 'LOBBY NAME' : 'LOBİ ADI';
+  if (el4('mp-create-password')) el4('mp-create-password').placeholder = lang==='en' ? 'Set password' : 'Şifre belirle';
+  if (el4('mp-join-password')) el4('mp-join-password').placeholder = lang==='en' ? 'Lobby password' : 'Lobi şifresi';
+  if (el4('mp-browse-pw-input')) el4('mp-browse-pw-input').placeholder = lang==='en' ? 'Enter password' : 'Şifreyi gir';
+  if (el4('mp-browse-sub')) el4('mp-browse-sub').textContent = lang==='en' ? 'Tap open lobby, 🔒 enter password for private' : 'Açık lobiye tıkla, 🔒 şifreli lobiye şifre gir';
+  if (el4('mp-browse-empty')) el4('mp-browse-empty').textContent = lang==='en' ? 'Searching…' : 'Aranıyor…';
+
+  // Flag input placeholder  
+  const flagInp = document.getElementById('flag-input');
+  if (flagInp) flagInp.placeholder = lang==='en' ? 'Type the country name' : 'Ülke adını yaz...';
+
+  // flag-portrait-hint
+  const fph = document.getElementById('flag-portrait-hint');
+  if (fph) fph.textContent = lang==='en' ? '📱 This mode works best in portrait · Dikey ekranda daha iyi görünür' : '📱 Bu mod dikey ekranda daha iyi görünür · This mode works best in portrait';
+
+  // Auth username screen  
+  if (el4('auth-username-subtitle')) el4('auth-username-subtitle').textContent = lang==='en' ? 'Choose a username for the leaderboard' : 'Liderlik tablosunda görünecek kullanıcı adını seç';
+  if (el4('auth-username-input')) el4('auth-username-input').placeholder = lang==='en' ? 'Username (2-20 chars)' : 'Kullanıcı adı (2-20 karakter)';
+  if (el4('auth-forgot-subtitle')) el4('auth-forgot-subtitle').textContent = lang==='en' ? 'A password reset link will be sent to your email' : 'E-posta adresine şifre sıfırlama linki gönderilecek';
+  if (el4('auth-forgot-email')) el4('auth-forgot-email').placeholder = lang==='en' ? 'Email' : 'E-posta';
 }
 let currentUser = null;
 
@@ -1271,65 +1448,173 @@ function switchAuthTab(tab) {
   });
   document.getElementById('auth-error').textContent = '';
   document.getElementById('auth-modal').dataset.tab = tab;
+  const identifierInp = document.getElementById('auth-identifier');
+  const emailInp      = document.getElementById('auth-email');
+  if (tab === 'register') {
+    // Kayıt: e-posta ayrı + identifier kullanıcı adı için gizle
+    if (identifierInp) { identifierInp.style.display = 'none'; identifierInp.value = ''; }
+    if (emailInp)      { emailInp.style.display = 'block'; }
+  } else {
+    // Giriş: sadece identifier (e-posta veya kullanıcı adı)
+    if (identifierInp) { identifierInp.style.display = 'block'; }
+    if (emailInp)      { emailInp.style.display = 'none'; emailInp.value = ''; }
+  }
+}
+
+// ══════════════════════════════════════════════════════════
+// AUTH SİSTEMİ — Firebase Authentication
+// ══════════════════════════════════════════════════════════
+
+function showAuthMain() {
+  document.getElementById('auth-screen-main').style.display = 'block';
+  document.getElementById('auth-screen-username').style.display = 'none';
+  document.getElementById('auth-screen-forgot').style.display = 'none';
+}
+function showForgotPassword() {
+  document.getElementById('auth-screen-main').style.display = 'none';
+  document.getElementById('auth-screen-forgot').style.display = 'block';
+  const identVal = document.getElementById('auth-identifier');
+  const emailVal = document.getElementById('auth-email');
+  const val = (identVal && identVal.value.includes('@')) ? identVal.value : (emailVal ? emailVal.value : '');
+  if (val) document.getElementById('auth-forgot-email').value = val;
+  document.getElementById('auth-forgot-error').textContent = '';
+}
+
+async function authSendReset() {
+  const email = document.getElementById('auth-forgot-email').value.trim();
+  const errEl = document.getElementById('auth-forgot-error');
+  const btn   = document.getElementById('auth-forgot-btn');
+  if (!email) { errEl.textContent = 'E-posta girin'; return; }
+  btn.disabled = true;
+  try {
+    await auth.sendPasswordResetEmail(email);
+    errEl.style.color = 'var(--green)';
+    errEl.textContent = 'Şifre sıfırlama e-postası gönderildi!';
+    setTimeout(() => { errEl.style.color = ''; showAuthMain(); }, 2500);
+  } catch(e) {
+    errEl.style.color = '';
+    errEl.textContent = e.code === 'auth/user-not-found' ? 'Bu e-posta ile kayıtlı kullanıcı yok.'
+      : e.code === 'auth/invalid-email' ? 'Geçersiz e-posta.'
+      : 'Hata: ' + e.message;
+  }
+  btn.disabled = false;
 }
 
 let _authSubmitting = false;
 async function authSubmit() {
   if (_authSubmitting) return;
   _authSubmitting = true;
-  const tab = document.getElementById('auth-modal').dataset.tab || 'login';
-  const username = document.getElementById('auth-username').value.trim();
-  const password = document.getElementById('auth-password').value;
-  const errEl = document.getElementById('auth-error');
+  const tab      = document.getElementById('auth-modal').dataset.tab || 'login';
+  const rawPassword = (document.getElementById('auth-password').value || '');
+  const password = rawPassword.length < 6 ? rawPassword + ('_gb_' + rawPassword).slice(0, 6 - rawPassword.length) : rawPassword;
+  const errEl    = document.getElementById('auth-error');
+  const btn      = document.getElementById('auth-submit-btn');
 
-  if (!username || username.length < 2) { errEl.textContent = t('errShort'); _authSubmitting = false; return; }
-  if (!password || password.length < 4) { errEl.textContent = t('errPass'); _authSubmitting = false; return; }
-  if (username.length > 20) { errEl.textContent = t('errLong'); _authSubmitting = false; return; }
+  errEl.textContent = '';
+  if (!rawPassword) { errEl.textContent = lang==='en'?'Enter password':'Şifre girin'; _authSubmitting = false; return; }
 
-  const key = username.toLowerCase();
-  const pwHash = hashPassword(password);
-  const submitBtn = document.querySelector('.auth-submit');
-  if (submitBtn) { submitBtn.disabled = true; submitBtn.style.opacity = '0.6'; }
-  errEl.textContent = t('waiting');
+  btn.disabled = true; btn.style.opacity = '0.6'; btn.textContent = '…';
 
   try {
-    const userRef = db.collection('users').doc(key);
-    const snap = await userRef.get();
-    const mySessionId = Math.random().toString(36).slice(2) + Date.now().toString(36);
-
+    let fireUser;
     if (tab === 'register') {
-      if (snap.exists) { errEl.textContent = t('errTaken'); return; }
-      const userData = { username, pwHash, bestScore: 0, bestLevel: 0, gamesPlayed: 0, created: Date.now(), sessionId: mySessionId, sessionAt: Date.now() };
-      await userRef.set(userData);
-      currentUser = userData;
+      // Kayıt: e-posta zorunlu
+      const email = (document.getElementById('auth-email').value || '').trim();
+      if (!email) { errEl.textContent = lang==='en'?'Enter email':'E-posta girin'; btn.disabled=false; btn.style.opacity=''; btn.textContent=t('submit'); _authSubmitting=false; return; }
+      const cred = await auth.createUserWithEmailAndPassword(email, password);
+      fireUser = cred.user;
+      _authSubmitting = false;
+      btn.disabled = false; btn.style.opacity = ''; btn.textContent = t('submit');
+      document.getElementById('auth-screen-main').style.display = 'none';
+      document.getElementById('auth-screen-username').style.display = 'block';
+      document.getElementById('auth-username-input').focus();
+      window._pendingFireUser = fireUser;
+      return;
     } else {
-      if (!snap.exists) { errEl.textContent = t('errNotFound'); return; }
-      const userData = snap.data();
-      if (userData.pwHash !== pwHash) { errEl.textContent = t('errWrongPass'); return; }
-      await userRef.update({ sessionId: mySessionId, sessionAt: Date.now() });
-      currentUser = { ...userData, sessionId: mySessionId };
+      // Giriş: e-posta veya kullanıcı adı
+      const identifier = (document.getElementById('auth-identifier').value || '').trim();
+      if (!identifier) { errEl.textContent = lang==='en'?'Enter email or username':'E-posta veya kullanıcı adı girin'; btn.disabled=false; btn.style.opacity=''; btn.textContent=t('submit'); _authSubmitting=false; return; }
+      const isEmail = identifier.includes('@');
+      let loginEmail = identifier;
+      if (!isEmail) {
+        // Kullanıcı adıyla giriş — Firestore'dan e-postayı bul
+        const key = identifier.toLowerCase();
+        const userSnap = await db.collection('users').doc(key).get();
+        if (!userSnap.exists) {
+          errEl.textContent = lang==='en'?'User not found.':'Kullanıcı bulunamadı.';
+          btn.disabled=false; btn.style.opacity=''; btn.textContent=t('submit'); _authSubmitting=false; return;
+        }
+        loginEmail = userSnap.data().email;
+        if (!loginEmail) {
+          errEl.textContent = lang==='en'?'No email on file. Try logging in with email.':'Bu hesabın e-postası bulunamadı. E-posta ile giriş dene.';
+          btn.disabled=false; btn.style.opacity=''; btn.textContent=t('submit'); _authSubmitting=false; return;
+        }
+      }
+      const cred = await auth.signInWithEmailAndPassword(loginEmail, password);
+      fireUser = cred.user;
     }
-    window._mySessionId = mySessionId;
-    window._mySessionRef = userRef;
-    errEl.textContent = '';
-    _authSubmitting = false;
-    const _sb = document.querySelector('.auth-submit');
-    if (_sb) { _sb.disabled = false; _sb.style.opacity = ''; }
-    onAuthSuccess();
-    mpWatchSession(userRef, mySessionId);
+    await _loadUserFromFirestore(fireUser.uid, '');
+    btn.disabled = false; btn.style.opacity = ''; btn.textContent = t('submit');
   } catch(e) {
     _authSubmitting = false;
-    const _sb2 = document.querySelector('.auth-submit');
-    if (_sb2) { _sb2.disabled = false; _sb2.style.opacity = ''; }
-    console.error('Auth error:', e);
-    if (e.code === 'permission-denied') {
-      errEl.textContent = '⛔ Firebase izin hatası — Rules ayarını kontrol et.';
-    } else if (e.code === 'unavailable' || e.message && e.message.includes('network')) {
-      errEl.textContent = '📶 İnternet bağlantısı yok, tekrar dene.';
-    } else {
-      errEl.textContent = 'Hata: ' + (e.message || e.code || 'Bilinmeyen hata');
+    btn.disabled = false; btn.style.opacity = ''; btn.textContent = t('submit');
+    errEl.textContent =
+      e.code === 'auth/user-not-found'        ? (lang==='en'?'User not found.':'Kullanıcı bulunamadı.') :
+      e.code === 'auth/wrong-password'         ? (lang==='en'?'Wrong password.':'Yanlış şifre.') :
+      e.code === 'auth/invalid-credential'     ? (lang==='en'?'Wrong credentials.':'Giriş bilgileri hatalı.') :
+      e.code === 'auth/email-already-in-use'   ? (lang==='en'?'Email already registered.':'Bu e-posta zaten kayıtlı.') :
+      e.code === 'auth/invalid-email'          ? (lang==='en'?'Invalid email.':'Geçersiz e-posta.') :
+      e.code === 'auth/network-request-failed' ? '📶 İnternet bağlantısı yok.' :
+      'Hata: ' + (e.message || e.code);
+  }
+  _authSubmitting = false;
+}
+
+async function authSetUsername() {
+  const username = (document.getElementById('auth-username-input').value || '').trim();
+  const errEl = document.getElementById('auth-username-error');
+  const btn   = document.getElementById('auth-username-btn');
+  if (!username || username.length < 2) { errEl.textContent = 'Kullanıcı adı en az 2 karakter olmalı'; return; }
+  if (username.length > 20) { errEl.textContent = 'Kullanıcı adı en fazla 20 karakter olabilir'; return; }
+  if (!/^[a-zA-Z0-9_À-ɏ]+$/.test(username)) { errEl.textContent = 'Sadece harf, rakam ve _ kullanılabilir'; return; }
+  btn.disabled = true; btn.style.opacity = '0.6';
+  // Kullanıcı adı benzersiz mi?
+  const key = username.toLowerCase();
+  try {
+    const snap = await db.collection('users').doc(key).get();
+    if (snap.exists) { errEl.textContent = 'Bu kullanıcı adı alınmış, başka birini dene'; btn.disabled=false; btn.style.opacity=''; return; }
+    const fireUser = window._pendingFireUser || auth.currentUser;
+    const userData = { username, uid: fireUser.uid, email: fireUser.email||'', bestScore: 0, bestLevel: 0, gamesPlayed: 0, bestScoreTurkey:0, bestScoreLandmark:0, bestScoreFlag:0, created: Date.now() };
+    await db.collection('users').doc(key).set(userData);
+    await db.collection('uid_to_username').doc(fireUser.uid).set({ username, key });
+    window._pendingFireUser = null;
+    currentUser = userData;
+    errEl.textContent = '';
+    btn.disabled = false; btn.style.opacity = '';
+    onAuthSuccess();
+  } catch(e) {
+    errEl.textContent = 'Hata: ' + e.message;
+    btn.disabled = false; btn.style.opacity = '';
+  }
+}
+
+async function _loadUserFromFirestore(uid, email) {
+  // uid → username map
+  const mapSnap = await db.collection('uid_to_username').doc(uid).get();
+  if (mapSnap.exists) {
+    const { key } = mapSnap.data();
+    const userSnap = await db.collection('users').doc(key).get();
+    if (userSnap.exists) {
+      currentUser = userSnap.data();
+      onAuthSuccess();
+      return;
     }
   }
+  // uid_to_username yok → kullanıcı adı ekranına git (eski hesap migrasyonu)
+  window._pendingFireUser = auth.currentUser;
+  document.getElementById('auth-screen-main').style.display = 'none';
+  document.getElementById('auth-screen-username').style.display = 'block';
+  document.getElementById('auth-username-input').focus();
 }
 
 function mpWatchSession(userRef, mySessionId) {
@@ -1358,13 +1643,15 @@ function authLogout() {
   window._mySessionId = null;
   window._mySessionRef = null;
   currentUser = null;
-  gameMode = 'world'; // modu sıfırla
+  gameMode = 'world';
+  _loggingOut = true;
+  if (auth) auth.signOut().catch(()=>{}).finally(() => { setTimeout(() => { _loggingOut = false; }, 1000); });
   const savedLang = lang;
   document.getElementById('welcome-modal').style.display = 'none';
   document.getElementById('overlay').classList.add('hidden');
   document.getElementById('lb-modal').classList.add('hidden');
   document.getElementById('auth-modal').dataset.tab = 'login';
-  document.getElementById('auth-username').value = '';
+  document.getElementById('auth-email').value = '';
   document.getElementById('auth-password').value = '';
   document.getElementById('auth-error').textContent = '';
   document.getElementById('auth-modal').classList.remove('hidden');
@@ -1461,7 +1748,7 @@ document.addEventListener('DOMContentLoaded', function() {
       fn();
     }, { passive: false });
   }
-  addTouchFix('auth-username', function() { document.getElementById('auth-username').focus(); });
+  addTouchFix('auth-email', function() { document.getElementById('auth-email').focus(); });
   addTouchFix('auth-password', function() { document.getElementById('auth-password').focus(); });
 });
 
@@ -1492,6 +1779,10 @@ function goToWelcome() {
   // Her yerden ana ekrana dön — tüm ekranları/overlay'leri kapat
   if (typeof stopTimer === 'function') stopTimer();
   if (typeof hideFlagScreen === 'function') hideFlagScreen();
+  // MP oyunundaysa lobi'yi temizle (host ise sil, guest ise çık)
+  if (typeof mpGameActive !== 'undefined' && mpGameActive && mpLobbyId) {
+    mpLeaveLobby(); return; // mpLeaveLobby zaten goToWelcome'a yönlendirir
+  }
 
   const ids = ['overlay','main-menu-modal','flag-between-overlay'];
   ids.forEach(id => {
@@ -1925,7 +2216,11 @@ async function showLeaderboard(origin, lbMode) {
   try {
     const snap = await db.collection('users').orderBy(scoreField, 'desc').limit(200).get();
     lbAllUsers = [];
-    snap.forEach(d => { const u=d.data(); if((u[scoreField]||0)>0) lbAllUsers.push({...u, _sf:scoreField, _lf:levelField, _gf:gamesField}); });
+    snap.forEach(d => {
+      const u=d.data();
+      // Sadece Firebase Auth ile oluşturulmuş yeni hesaplar (uid alanı var)
+      if(u.uid && (u[scoreField]||0)>0) lbAllUsers.push({...u, _sf:scoreField, _lf:levelField, _gf:gamesField});
+    });
     lbRenderPage(0);
   } catch(e) {
     listEl.innerHTML = '<div class="lb-loading">' + t('lbFail') + ': ' + e.message + '</div>';
@@ -2030,10 +2325,10 @@ async function resetMyScore() {
 // Enter key support & init
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('auth-modal').dataset.tab = 'login';
-  ['auth-username','auth-password'].forEach(id => {
+  ['auth-email','auth-password'].forEach(id => {
     const el = document.getElementById(id);
     el.addEventListener('keydown', e => {
-      if (e.key === 'Enter') authSubmit();
+      if (e.key === 'Enter') { const scr = document.getElementById('auth-screen-username'); if(scr && scr.style.display !== 'none') authSetUsername(); else authSubmit(); }
     });
     // Mobilde klavye açılınca input görünür kalsın
     el.addEventListener('focus', () => {
@@ -3089,6 +3384,8 @@ function openMainMenu() {
   if (modeEl) modeEl.textContent = '';
   const mmMp = document.getElementById('mm-btn-multiplayer');
   if (mmMp) mmMp.style.display = (typeof mpLobbyId !== 'undefined' && mpLobbyId) ? 'none' : '';
+  const resumeEl = document.getElementById('mm-btn-resume');
+  if (resumeEl) resumeEl.textContent = t('mpResume');
   document.getElementById('main-menu-modal').style.display = 'flex';
 }
 
@@ -4071,33 +4368,102 @@ function drawTurkeyLakesManual(provinceG, proj) {
       <h2 id="mp-main-h2">⚔️ MULTIPLAYER</h2>
       <div class="mp-sub" id="mp-main-sub">Play real-time with 2-5 players</div>
       <div class="mp-error" id="mp-main-error"></div>
-      <button class="mp-btn" onclick="mpShowCreate()" id="mp-btn-create">➕ CREATE LOBBY</button>
-      <button class="mp-btn" onclick="mpShowJoin()" id="mp-btn-join">🔗 JOIN LOBBY</button>
+      <button class="mp-btn" onclick="mpShowMatchmaking()" id="mp-btn-matchmaking" style="background:linear-gradient(135deg,#1a7a4a,#2ecc71);">⚡ RASTGELE EŞLEŞTİR</button>
+      <button class="mp-btn" onclick="mpShowCreate()" id="mp-btn-create">➕ LOBİ OLUŞTUR</button>
+      <button class="mp-btn" onclick="mpShowBrowse()" id="mp-btn-browse">🌐 AKTİF LOBİLER</button>
+      <button class="mp-btn secondary" onclick="mpShowJoin()" id="mp-btn-join" style="font-size:.95rem;">🔗 KOD İLE KATIL</button>
       <button class="mp-btn secondary" onclick="closeMultiplayerMenu()" id="mp-btn-back-main" id="mp-btn-back-main">← BACK</button>
     </div>
 
     <!-- Screen: Create lobby -->
     <div id="mp-screen-create" style="display:none">
       <h2 id="mp-create-h2">➕ LOBİ OLUŞTUR</h2>
-      <div class="mp-sub" id="mp-create-sub">Lobi kurulduktan sonra mod seçebilirsin</div>
+      <div class="mp-sub" id="mp-create-sub">Lobi adı gir ve ayarları seç</div>
       <div class="mp-error" id="mp-create-error"></div>
+      <input class="mp-input" id="mp-create-name" placeholder="LOBİ ADI" maxlength="20" style="text-transform:uppercase;letter-spacing:2px;font-size:1.1rem;text-align:center;font-family:'Bebas Neue',cursive;" oninput="this.value=this.value.toUpperCase()"/>
+      <div class="mp-toggle-row">
+        <span class="mp-toggle-label" id="mp-create-private-label">🔒 Şifreli lobi</span>
+        <label class="mp-toggle">
+          <input type="checkbox" id="mp-create-private-toggle" onchange="mpTogglePasswordField()"/>
+          <span class="mp-toggle-slider"></span>
+        </label>
+      </div>
+      <div id="mp-create-password-row" style="display:none">
+        <input class="mp-input" id="mp-create-password" placeholder="Şifre belirle" maxlength="20" type="text"/>
+      </div>
       <button class="mp-btn" onclick="mpCreateLobby()" id="mp-create-go">🚀 LOBİ OLUŞTUR</button>
       <button class="mp-btn secondary" onclick="mpShowMain()" id="mp-back-create">← GERİ</button>
     </div>
 
-    <!-- Screen: Join lobby -->
+    <!-- Screen: Join lobby (code) -->
     <div id="mp-screen-join" style="display:none">
-      <h2 id="mp-join-h2">🔗 JOIN LOBBY</h2>
-      <div class="mp-sub" id="mp-join-sub">Enter the 4-letter code from your friend</div>
+      <h2 id="mp-join-h2">🔗 KOD İLE KATIL</h2>
+      <div class="mp-sub" id="mp-join-sub">Arkadaşından aldığın 4 harfli kodu gir</div>
       <div class="mp-error" id="mp-join-error"></div>
-      <input class="mp-input" id="mp-join-code" id="mp-join-input" placeholder="LOBBY CODE (4 chars)" maxlength="4" style="text-transform:uppercase;letter-spacing:4px;font-size:1.4rem;text-align:center;font-family:'Bebas Neue',cursive;"/>
-      <button class="mp-btn" onclick="mpJoinLobby()" id="mp-join-go">GİRİŞ YAP</button>
+      <input class="mp-input" id="mp-join-code" placeholder="LOBİ KODU (4 harf)" maxlength="4" style="text-transform:uppercase;letter-spacing:4px;font-size:1.4rem;text-align:center;font-family:'Bebas Neue',cursive;"/>
+      <div id="mp-join-password-row" style="display:none">
+        <input class="mp-input" id="mp-join-password" placeholder="Lobi şifresi" maxlength="20" type="text"/>
+      </div>
+      <button class="mp-btn" onclick="mpJoinLobbyByCode()" id="mp-join-go">GİRİŞ YAP</button>
       <button class="mp-btn secondary" onclick="mpShowMain()" id="mp-back-join">← GERİ</button>
+    </div>
+
+    <!-- Screen: Matchmaking -->
+    <div id="mp-screen-matchmaking" style="display:none">
+      <!-- Aşama 1: Mod seç -->
+      <div id="mp-mm-select">
+        <h2>⚡ HIZLI EŞLEŞTİR</h2>
+        <div class="mp-sub" id="mp-mm-select-sub">Mod seç ve rankını gör</div>
+        <div class="mm-rank-grid" id="mm-rank-grid">
+          <!-- JS ile doldurulacak -->
+        </div>
+        <button class="mp-btn" onclick="mmStartSearch()" id="mm-start-search-btn">🔍 EŞLEŞTİR</button>
+        <button class="mp-btn secondary" onclick="mpShowMain()">← GERİ</button>
+      </div>
+      <!-- Aşama 2: Arama -->
+      <div id="mp-mm-searching" style="display:none">
+        <h2 id="mp-mm-h2">⚡ EŞLEŞTİRİLİYOR</h2>
+        <div class="mp-sub" id="mp-mm-sub"></div>
+        <div class="mp-error" id="mp-mm-error"></div>
+        <div style="text-align:center;padding:16px 0;">
+          <div id="mp-mm-spinner" style="font-size:2.5rem;margin-bottom:8px;">🔍</div>
+          <div id="mp-mm-timer" style="font-family:'Bebas Neue',cursive;font-size:2.8rem;color:var(--accent);">20</div>
+          <div style="color:var(--muted);font-size:.82rem;margin-top:4px;" id="mp-mm-hint">Rakip aranıyor…</div>
+        </div>
+        <!-- Aralık genişletme sorusu -->
+        <div id="mp-mm-expand-box" style="display:none;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:10px;text-align:center;">
+          <div style="font-size:.88rem;color:var(--text);margin-bottom:10px;" id="mp-mm-expand-label">Rank aralığı genişletilsin mi?</div>
+          <div style="display:flex;gap:8px;">
+            <button class="mp-btn" id="mp-mm-expand-yes" onclick="mmExpandRange()" style="flex:1;margin-bottom:0;padding:10px;">✓ EVET</button>
+            <button class="mp-btn danger" id="mp-mm-expand-no" onclick="mmCancel()" style="flex:1;margin-bottom:0;padding:10px;">✕ HAYIR</button>
+          </div>
+        </div>
+        <button class="mp-btn secondary" onclick="mmCancel()" id="mp-mm-cancel">✕ İPTAL</button>
+      </div>
+    </div>
+
+    <!-- Screen: Browse lobbies -->
+    <div id="mp-screen-browse" style="display:none">
+      <h2 id="mp-browse-h2">🌐 AKTİF LOBİLER</h2>
+      <div class="mp-sub" id="mp-browse-sub">Açık lobiye tıkla, 🔒 şifreli lobiye şifre gir</div>
+      <div class="mp-error" id="mp-browse-error"></div>
+      <div id="mp-lobby-list"><div class="mp-lobby-empty" id="mp-browse-empty">Aranıyor…</div></div>
+      <!-- Şifreli lobi için gizli modal -->
+      <div id="mp-browse-pw-box" style="display:none;background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:10px;">
+        <div style="font-size:.82rem;color:var(--muted);margin-bottom:8px;" id="mp-browse-pw-label">Bu lobi şifreli</div>
+        <input class="mp-input" id="mp-browse-pw-input" placeholder="Şifreyi gir" maxlength="20" type="text"/>
+        <div style="display:flex;gap:8px;">
+          <button class="mp-btn" onclick="mpBrowseJoinWithPw()" style="flex:1;margin-bottom:0">✓ GİR</button>
+          <button class="mp-btn secondary" onclick="mpBrowseCancelPw()" style="flex:0 0 auto;width:52px;margin-bottom:0">✕</button>
+        </div>
+      </div>
+      <button class="mp-btn secondary" onclick="mpRefreshBrowse()" id="mp-browse-refresh">🔄 YENİLE</button>
+      <button class="mp-btn secondary" onclick="mpShowMain()" id="mp-back-browse">← GERİ</button>
     </div>
 
     <!-- Screen: Lobby waiting room (host) -->
     <div id="mp-screen-lobby-host" style="display:none">
-      <h2 id="mp-lobby-h2">🏠 LOBBY</h2>
+      <h2 id="mp-lobby-h2">🏠 LOBİ</h2>
       <div class="mp-sub" id="mp-lobby-sub">Share this code with your friends</div>
       <div class="mp-code-display" id="mp-lobby-code-display" onclick="mpCopyCode()" title="Click to copy">----</div>
       <div class="mp-status" id="mp-host-status">Waiting for players…</div>
@@ -4122,7 +4488,7 @@ function drawTurkeyLakesManual(provinceG, proj) {
       <div class="mp-status" id="mp-guest-status">Lobiye bağlandı…</div>
       <div class="mp-player-list" id="mp-guest-player-list"></div>
       <div id="mp-guest-mode-display" style="text-align:center;color:var(--muted);font-size:.85rem;margin:6px 0;"></div>
-      <button class="mp-btn danger" onclick="mpLeaveLobby()" id="mp-leave-btn">LOBİDEN ÇIIK</button>
+      <button class="mp-btn danger" onclick="mpLeaveLobby()" id="mp-leave-btn">LOBİDEN AYRIL</button>
     </div>
   </div>
 </div>
@@ -4184,6 +4550,7 @@ function drawTurkeyLakesManual(provinceG, proj) {
   <div id="mp-result-box">
     <h2 id="mp-result-title">🏆 GAME OVER</h2>
     <div id="mp-result-list"></div>
+    <div id="mp-rank-change"></div>
     <div id="mp-result-btns" style="display:flex;gap:8px;margin-top:16px;"></div>
     <button class="mp-btn" onclick="mpBackToMenu()" style="margin-top:16px" id="mp-back-menu-btn">BACK TO MENU</button>
   </div>
@@ -4192,15 +4559,115 @@ function drawTurkeyLakesManual(provinceG, proj) {
 <script>
 // ===== MULTIPLAYER SİSTEMİ =====
 
-let mpLobby = null;        // aktif lobi verisi
-let mpLobbyId = null;      // firestore doc id
-let mpUnsubscribe = null;  // realtime listener
-let mpMode = 'world';      // 'world' | 'turkey'
+let mpLobby = null;
+let mpLobbyId = null;
+let mpUnsubscribe = null;
+let mpMode = 'world';
 let mpIsHost = false;
 let mpMyScore = 0;
-let mpQuestions = [];      // host tarafından üretilip paylaşılır
+let mpQuestions = [];
 let mpCurrentQ = 0;
 let mpGameActive = false;
+
+// ── RANK SİSTEMİ ─────────────────────────────────────
+const RANK_TIERS = [
+  { key:'bronze1', label:'Bronz I',    min:0,   max:60  },
+  { key:'bronze2', label:'Bronz II',   min:60,  max:100 },
+  { key:'bronze3', label:'Bronz III',  min:100, max:140 },
+  { key:'silver1', label:'Gümüş I',    min:140, max:180 },
+  { key:'silver2', label:'Gümüş II',   min:180, max:220 },
+  { key:'silver3', label:'Gümüş III',  min:220, max:260 },
+  { key:'gold1',   label:'Altın I',    min:260, max:300 },
+  { key:'gold2',   label:'Altın II',   min:300, max:340 },
+  { key:'gold3',   label:'Altın III',  min:340, max:9999 },
+];
+const RANK_TIERS_EN = [
+  { key:'bronze1', label:'Bronze I' }, { key:'bronze2', label:'Bronze II' }, { key:'bronze3', label:'Bronze III' },
+  { key:'silver1', label:'Silver I' }, { key:'silver2', label:'Silver II' }, { key:'silver3', label:'Silver III' },
+  { key:'gold1',   label:'Gold I'   }, { key:'gold2',   label:'Gold II'   }, { key:'gold3',   label:'Gold III'   },
+];
+const RANK_PLACEMENT_ELO = [80, 70, 50, 40, 30]; // 5 yerleşme maçı çarpanları
+const RANK_PLACEMENT_GAMES = 5;
+const RANK_WIN_ELO = 20;
+const RANK_LOSS_ELO = -20;
+const RANK_PLACEMENT_WIN_TOTAL = 270; // 5 galibiyet → 270 elo → Gümüş III
+
+function getRankEloField(mode) {
+  return { turkey:'eloTurkey', landmark:'eloLandmark', flag:'eloFlag' }[mode] || 'eloWorld';
+}
+function getRankGamesField(mode) {
+  return { turkey:'rankGamesTurkey', landmark:'rankGamesLandmark', flag:'rankGamesFlag' }[mode] || 'rankGamesWorld';
+}
+function getElo(user, mode) {
+  if (!user) return null;
+  const games = user[getRankGamesField(mode)] || 0;
+  if (games < RANK_PLACEMENT_GAMES) return null; // yerleşmemiş
+  return user[getRankEloField(mode)] || 0;
+}
+function getRankFromElo(elo) {
+  if (elo === null) return null;
+  for (let i = RANK_TIERS.length - 1; i >= 0; i--) {
+    if (elo >= RANK_TIERS[i].min) return RANK_TIERS[i];
+  }
+  return RANK_TIERS[0];
+}
+function getRankLabel(elo, lang) {
+  if (elo === null) return lang==='en' ? 'Unranked' : 'Sırasız';
+  const tier = getRankFromElo(elo);
+  if (!tier) return '?';
+  const enTier = RANK_TIERS_EN.find(t => t.key === tier.key);
+  return lang==='en' ? enTier.label : tier.label;
+}
+function getRankClass(elo) {
+  if (elo === null) return 'rank-unranked';
+  const tier = getRankFromElo(elo);
+  return tier ? 'rank-' + tier.key : 'rank-unranked';
+}
+function getRankEmoji(elo) {
+  if (elo === null) return '❓';
+  const tier = getRankFromElo(elo);
+  if (!tier) return '❓';
+  if (tier.key.startsWith('gold'))   return '🥇';
+  if (tier.key.startsWith('silver')) return '🥈';
+  return '🥉';
+}
+
+async function updateRankAfterMatch(won, mode) {
+  if (!currentUser || !db) return { oldElo: null, newElo: null, oldRank: null, newRank: null };
+  const eloField   = getRankEloField(mode);
+  const gamesField = getRankGamesField(mode);
+  const key = currentUser.username.toLowerCase();
+  try {
+    const snap = await db.collection('users').doc(key).get();
+    const userData = snap.exists ? snap.data() : currentUser;
+    let elo   = userData[eloField]   || 0;
+    let games = userData[gamesField] || 0;
+    const oldElo = games >= RANK_PLACEMENT_GAMES ? elo : null;
+    const oldRank = getRankFromElo(oldElo);
+
+    let delta;
+    if (games < RANK_PLACEMENT_GAMES) {
+      // Yerleşme maçı
+      const placementMult = RANK_PLACEMENT_ELO[games] || 20;
+      delta = won ? placementMult : -Math.floor(placementMult * 0.5);
+    } else {
+      delta = won ? RANK_WIN_ELO : RANK_LOSS_ELO;
+    }
+    elo = Math.max(0, elo + delta);
+    games += 1;
+
+    await db.collection('users').doc(key).update({
+      [eloField]:   elo,
+      [gamesField]: games,
+    });
+    currentUser[eloField]   = elo;
+    currentUser[gamesField] = games;
+
+    const newElo  = games >= RANK_PLACEMENT_GAMES ? elo : null;
+    const newRank = getRankFromElo(newElo);
+    return { oldElo, newElo, oldRank, newRank, delta, games, placed: games === RANK_PLACEMENT_GAMES };
+  } catch(e) { console.error('Rank update error:', e); return { oldElo:null, newElo:null }; }
+}
 
 function openMultiplayerMenu() {
   if (!currentUser || currentUser.isGuest) {
@@ -4213,12 +4680,13 @@ function openMultiplayerMenu() {
 }
 
 function closeMultiplayerMenu() {
+  mmCleanup();
   document.getElementById('mp-modal').classList.remove('open');
   document.getElementById('welcome-modal').style.display = 'flex';
 }
 
 function mpShowMain() {
-  ['mp-screen-create','mp-screen-join','mp-screen-lobby-host','mp-screen-lobby-guest'].forEach(id => {
+  ['mp-screen-create','mp-screen-join','mp-screen-lobby-host','mp-screen-lobby-guest','mp-screen-browse','mp-screen-matchmaking'].forEach(id => {
     document.getElementById(id).style.display = 'none';
   });
   document.getElementById('mp-screen-main').style.display = 'block';
@@ -4227,11 +4695,20 @@ function mpShowMain() {
 function mpShowCreate() {
   document.getElementById('mp-screen-main').style.display = 'none';
   document.getElementById('mp-screen-create').style.display = 'block';
+  const cn = document.getElementById('mp-create-name');
+  if (cn) { cn.value = ''; cn.focus(); }
+  const pt = document.getElementById('mp-create-private-toggle');
+  if (pt) { pt.checked = false; document.getElementById('mp-create-password-row').style.display = 'none'; }
+  document.getElementById('mp-create-error').textContent = '';
 }
 
 function mpShowJoin() {
   document.getElementById('mp-screen-main').style.display = 'none';
   document.getElementById('mp-screen-join').style.display = 'block';
+  const jc = document.getElementById('mp-join-code');
+  if (jc) { jc.value = ''; jc.focus(); }
+  document.getElementById('mp-join-error').textContent = '';
+  document.getElementById('mp-join-password-row').style.display = 'none';
   setTimeout(() => document.getElementById('mp-join-code').focus(), 100);
 }
 
@@ -4273,26 +4750,42 @@ function mpGenerateCode() {
 
 const MP_QUESTION_COUNT = 12;
 
+function mpTogglePasswordField() {
+  const checked = document.getElementById('mp-create-private-toggle').checked;
+  document.getElementById('mp-create-password-row').style.display = checked ? 'block' : 'none';
+  if (checked) document.getElementById('mp-create-password').focus();
+}
+
 async function mpCreateLobby() {
   if (!db) { document.getElementById('mp-create-error').textContent = 'Connection error!'; return; }
+  const lobbyNameRaw = (document.getElementById('mp-create-name').value || '').trim().toUpperCase();
+  if (!lobbyNameRaw) { document.getElementById('mp-create-error').textContent = 'Lobi adı boş olamaz!'; return; }
+  const isPrivate = document.getElementById('mp-create-private-toggle').checked;
+  const password  = isPrivate ? (document.getElementById('mp-create-password').value || '').trim() : '';
+  if (isPrivate && !password) { document.getElementById('mp-create-error').textContent = 'Şifre boş olamaz!'; return; }
   if (mpMode === 'flag') _showPortraitTip();
-  const btn = document.querySelector('#mp-screen-create .mp-btn');
+  const btn = document.getElementById('mp-create-go');
   btn.disabled = true; btn.textContent = t('mpCreating');
 
   try {
-    let code, exists = true;
-    // Benzersiz kod üret
-    while (exists) {
-      code = mpGenerateCode();
-      const snap = await db.collection('mp_lobbies').where('code', '==', code).where('status', '==', 'waiting').get();
-      exists = !snap.empty;
+    // Şifreli lobilerde benzersiz kod üret, şifresiz lobilerde gerek yok
+    let code = '';
+    if (isPrivate) {
+      let exists = true;
+      while (exists) {
+        code = mpGenerateCode();
+        const snap = await db.collection('mp_lobbies').where('code', '==', code).where('status', '==', 'waiting').get();
+        exists = !snap.empty;
+      }
     }
 
-    // 12 soru sabit, tüm şehir havuzundan çekilir
     const questions = mpMode === 'turkey' ? pickTurkeyQuestions(MP_QUESTION_COUNT) : mpMode === 'landmark' ? pickLandmarkQuestions(MP_QUESTION_COUNT) : mpMode === 'flag' ? pickFlagQuestions(12) : pickQuestions(MP_QUESTION_COUNT);
 
     const lobbyData = {
       code,
+      lobbyName: lobbyNameRaw,
+      isPrivate: isPrivate,
+      password:  isPrivate ? password : '',
       hostId: currentUser.username,
       status: 'waiting',
       mode: mpMode,
@@ -4321,51 +4814,466 @@ async function mpCreateLobby() {
   btn.disabled = false; btn.textContent = t('mpCreateGo');
 }
 
-async function mpJoinLobby() {
+// Lobiye katılma — ortak yardımcı
+async function _mpDoJoin(docSnap, password) {
+  const lobbyData = docSnap.data();
+  const playerCount = Object.keys(lobbyData.players || {}).length;
+  const maxPlayers = lobbyData.maxPlayers || 5;
+  if (playerCount >= maxPlayers) throw new Error(lang==='en' ? 'Lobby is full!' : 'Lobi dolu!');
+  if (lobbyData.players && lobbyData.players[currentUser.username]) throw new Error('Bu lobide zaten varsın!');
+  if (lobbyData.isPrivate && lobbyData.password !== password) throw new Error('Yanlış şifre!');
+
+  mpLobbyId = docSnap.id;
+  mpIsHost = false;
+  mpMyScore = 0;
+  mpQuestions = lobbyData.questions;
+  mpMode = lobbyData.mode;
+
+  await db.collection('mp_lobbies').doc(mpLobbyId).update({
+    [`players.${currentUser.username}`]: { name: currentUser.username, score: 0, joinedAt: Date.now(), ready: true }
+  });
+  mpSubscribeLobby();
+  mpShowLobbyGuest();
+  if (mpMode === 'flag') _showPortraitTip();
+}
+
+// Koda göre katılma
+async function mpJoinLobbyByCode() {
   const code = document.getElementById('mp-join-code').value.trim().toUpperCase();
   if (code.length !== 4) { document.getElementById('mp-join-error').textContent = 'Geçersiz kod!'; return; }
   if (!db) { document.getElementById('mp-join-error').textContent = 'Bağlantı hatası!'; return; }
-
-  const btn = document.querySelector('#mp-screen-join .mp-btn');
+  const btn = document.getElementById('mp-join-go');
   btn.disabled = true; btn.textContent = t('mpJoining');
-
   try {
     const snap = await db.collection('mp_lobbies').where('code', '==', code).where('status', '==', 'waiting').get();
-    if (snap.empty) { document.getElementById('mp-join-error').textContent = 'Lobby not found or game already started!'; btn.disabled=false; btn.textContent=t('mpJoinGo'); return; }
-
+    if (snap.empty) { document.getElementById('mp-join-error').textContent = 'Lobi bulunamadı veya oyun başladı!'; btn.disabled=false; btn.textContent=t('mpJoinGo'); return; }
     const docSnap = snap.docs[0];
     const lobbyData = docSnap.data();
-    const playerCount = Object.keys(lobbyData.players).length;
-
-    if (playerCount >= 5) { document.getElementById('mp-join-error').textContent = 'Lobby is full! (Max 5 players)'; btn.disabled=false; btn.textContent=t('mpJoinGo'); return; }
-    if (lobbyData.players[currentUser.username]) { document.getElementById('mp-join-error').textContent = 'You are already in this lobby!'; btn.disabled=false; btn.textContent='GİRİŞ YAP'; return; }
-
-    mpLobbyId = docSnap.id;
-    mpIsHost = false;
-    mpMyScore = 0;
-    mpQuestions = lobbyData.questions;
-    mpMode = lobbyData.mode;
-
-    await db.collection('mp_lobbies').doc(mpLobbyId).update({
-      [`players.${currentUser.username}`]: { name: currentUser.username, score: 0, joinedAt: Date.now(), ready: true }
-    });
-
-    mpSubscribeLobby();
-    mpShowLobbyGuest();
-    if (mpMode === 'flag') _showPortraitTip();
+    if (lobbyData.isPrivate) {
+      // Şifre alanını göster
+      document.getElementById('mp-join-password-row').style.display = 'block';
+      document.getElementById('mp-join-password').dataset.docId = docSnap.id;
+      document.getElementById('mp-join-password').focus();
+      btn.disabled = false; btn.textContent = t('mpJoinGo');
+      btn.onclick = async function() {
+        const pw = document.getElementById('mp-join-password').value.trim();
+        btn.disabled = true; btn.textContent = t('mpJoining');
+        try {
+          await _mpDoJoin(docSnap, pw);
+        } catch(e) { document.getElementById('mp-join-error').textContent = e.message; btn.disabled=false; btn.textContent=t('mpJoinGo'); }
+      };
+      return;
+    }
+    await _mpDoJoin(docSnap, '');
   } catch(e) {
     document.getElementById('mp-join-error').textContent = 'Hata: ' + e.message;
   }
-  btn.disabled = false; btn.textContent = 'JOIN';
+  btn.disabled = false; btn.textContent = t('mpJoinGo');
+  btn.onclick = mpJoinLobbyByCode;
+}
+
+// Eski alias
+function mpJoinLobby() { mpJoinLobbyByCode(); }
+
+// ─── Aktif Lobi Listesi ───────────────────────────────────────
+let _mpBrowsePendingDoc = null;
+
+// ══════════════════════════════════════════════════════════
+// RASTGELE EŞLEŞTİRME (Matchmaking)
+// ══════════════════════════════════════════════════════════
+let _mmMode = 'world';
+let _mmInterval = null;
+let _mmDocRef = null;
+let _mmUnsubscribe = null;
+let _mmExpanded = false;
+let _mmExpandAsked = false;
+
+const MM_MODES = [
+  { key:'world',    emoji:'🌍', labelTr:'Dünya',    labelEn:'World'   },
+  { key:'turkey',   emoji:'🇹🇷', labelTr:'Türkiye',  labelEn:'Turkey'  },
+  { key:'landmark', emoji:'🏛️', labelTr:'Harikalar',labelEn:'Wonders' },
+  { key:'flag',     emoji:'🚩', labelTr:'Bayraklar',labelEn:'Flags'   },
+];
+
+function mmRenderRankGrid() {
+  const grid = document.getElementById('mm-rank-grid');
+  if (!grid) return;
+  grid.innerHTML = MM_MODES.map(m => {
+    const elo = currentUser ? getElo(currentUser, m.key) : null;
+    const rkLabel = getRankLabel(elo, lang);
+    const rkClass = getRankClass(elo);
+    const rkEmoji = elo !== null ? getRankEmoji(elo) : '❓';
+    const games = currentUser ? (currentUser[getRankGamesField(m.key)] || 0) : 0;
+    const gamesLeft = Math.max(0, RANK_PLACEMENT_GAMES - games);
+    const sub = elo !== null ? rkLabel : (gamesLeft > 0 ? (lang==='en' ? gamesLeft+' games left' : gamesLeft+' maç kaldı') : (lang==='en'?'Unranked':'Sırasız'));
+    return '<div class="mm-rank-card' + (m.key===_mmMode?' selected':'') + '" onclick="mmSelectMode(\'' + m.key + '\')">'
+      + '<div class="mm-rank-card-mode">' + m.emoji + '</div>'
+      + '<div class="mm-rank-card-name">' + (lang==='en'?m.labelEn:m.labelTr) + '</div>'
+      + '<div style="margin-top:4px"><span class="rank-badge ' + rkClass + '">' + rkEmoji + ' ' + sub + '</span></div>'
+      + '</div>';
+  }).join('');
+}
+
+function mmSelectMode(m) {
+  _mmMode = m;
+  mmRenderRankGrid();
+}
+
+function mpShowMatchmaking() {
+  ['mp-screen-main','mp-screen-create','mp-screen-join','mp-screen-lobby-host','mp-screen-lobby-guest','mp-screen-browse'].forEach(id => {
+    document.getElementById(id).style.display = 'none';
+  });
+  document.getElementById('mp-screen-matchmaking').style.display = 'block';
+  document.getElementById('mp-mm-select').style.display = 'block';
+  document.getElementById('mp-mm-searching').style.display = 'none';
+  document.getElementById('mp-mm-expand-box').style.display = 'none';
+  _mmExpanded = false; _mmExpandAsked = false;
+  mmRenderRankGrid();
+}
+
+function mmStartSearch() {
+  document.getElementById('mp-mm-select').style.display = 'none';
+  document.getElementById('mp-mm-searching').style.display = 'block';
+  document.getElementById('mp-mm-error').textContent = '';
+  document.getElementById('mp-mm-expand-box').style.display = 'none';
+  _mmExpanded = false; _mmExpandAsked = false;
+  const modeNames = {world:lang==='en'?'World':'Dünya',turkey:lang==='en'?'Turkey':'Türkiye',landmark:lang==='en'?'Wonders':'Harikalar',flag:lang==='en'?'Flags':'Bayraklar'};
+  const sub = document.getElementById('mp-mm-sub');
+  if (sub) sub.textContent = (MM_MODES.find(m=>m.key===_mmMode)||{}).emoji + ' ' + (modeNames[_mmMode]||_mmMode);
+  mmStart();
+}
+
+function mmExpandRange() {
+  _mmExpanded = true;
+  document.getElementById('mp-mm-expand-box').style.display = 'none';
+  document.getElementById('mp-mm-hint').textContent = lang==='en' ? 'Expanding search…' : 'Arama genişletiliyor…';
+}
+
+async function mmStart() {
+  if (!currentUser || !db) return;
+  const myName = currentUser.username;
+  const myElo  = getElo(currentUser, _mmMode) || 0;
+  let cd = 20;
+  document.getElementById('mp-mm-timer').textContent = cd;
+  document.getElementById('mp-mm-hint').textContent = lang==='en' ? 'Looking for an opponent…' : 'Rakip aranıyor…';
+  document.getElementById('mp-mm-spinner').textContent = '🔍';
+
+  // Bekleme kuyruğuna gir
+  try {
+    _mmDocRef = await (async () => {
+      const ref = db.collection('matchmaking').doc();
+      await ref.set({ username: myName, mode: _mmMode, elo: myElo, status: 'waiting', createdAt: Date.now() });
+      return ref;
+    })();
+  } catch(e) {
+    document.getElementById('mp-mm-error').textContent = 'Hata: ' + e.message;
+    return;
+  }
+
+  // Listener: biri eşleştirirse
+  _mmUnsubscribe = _mmDocRef.onSnapshot(async snap => {
+    if (!snap.exists) return;
+    const data = snap.data();
+    if (data.status === 'matched') {
+      clearInterval(_mmInterval);
+      if (_mmUnsubscribe) { _mmUnsubscribe(); _mmUnsubscribe = null; }
+      document.getElementById('mp-mm-hint').textContent = lang==='en' ? 'Match found! Joining…' : 'Eşleşme bulundu! Katılıyorum…';
+      document.getElementById('mp-mm-spinner').textContent = '⚡';
+      setTimeout(async () => { await mmJoinLobbyOf(data.matchedBy || data.matchedWith); }, 1000);
+    }
+  });
+
+  // Countdown + aktif arama döngüsü
+  let searchPhase = 'narrow'; // 'narrow' → 'expand' → 'wide'
+  _mmInterval = setInterval(async () => {
+    cd--;
+    const timerEl = document.getElementById('mp-mm-timer');
+    if (timerEl) timerEl.textContent = cd;
+
+    // 10. saniyede rank aralığı genişletme sor
+    if (cd === 10 && !_mmExpandAsked && searchPhase === 'narrow') {
+      _mmExpandAsked = true;
+      searchPhase = 'ask';
+      document.getElementById('mp-mm-expand-box').style.display = 'block';
+      const expandLabel = document.getElementById('mp-mm-expand-label');
+      if (expandLabel) expandLabel.textContent = lang==='en' ? 'No opponent found nearby. Expand rank range?' : 'Yakın rakip bulunamadı. Rank aralığı genişletilsin mi?';
+    }
+
+    // Süre doldu
+    if (cd <= 0) {
+      clearInterval(_mmInterval);
+      mmCleanup();
+      const errEl = document.getElementById('mp-mm-error');
+      if (errEl) errEl.textContent = lang==='en' ? 'No opponent found.' : 'Eşleşme bulunamadı.';
+      setTimeout(() => { mpShowMatchmaking(); }, 2000);
+      return;
+    }
+
+    // Her saniye aktif arama: başka biri var mı?
+    if (searchPhase === 'ask') return; // kullanıcı kararını bekle
+    try {
+      const snap = await db.collection('matchmaking')
+        .where('status', '==', 'waiting')
+        .where('mode',   '==', _mmMode)
+        .limit(10).get();
+      let opponent = null;
+      snap.forEach(doc => {
+        if (opponent) return;
+        const d = doc.data();
+        if (d.username === myName) return;
+        if (_mmExpanded) { opponent = doc; return; }
+        // Dar arama: elo ±40
+        if (Math.abs((d.elo||0) - myElo) <= 40) { opponent = doc; }
+      });
+      if (opponent) {
+        clearInterval(_mmInterval);
+        const opData = opponent.data();
+        // Race condition önleme: atomik update dene
+        try {
+          await db.runTransaction(async tx => {
+            const opRef = opponent.ref;
+            const opSnap = await tx.get(opRef);
+            if (!opSnap.exists || opSnap.data().status !== 'waiting') throw new Error('already matched');
+            tx.update(opRef, { status: 'matched', matchedBy: myName });
+          });
+        } catch(e) { return; } // başkası kapıyı kapatmış, bekle
+        if (_mmUnsubscribe) { _mmUnsubscribe(); _mmUnsubscribe = null; }
+        if (_mmDocRef) { _mmDocRef.delete().catch(()=>{}); _mmDocRef = null; }
+        document.getElementById('mp-mm-hint').textContent = lang==='en' ? 'Match found! Creating lobby…' : 'Eşleşme bulundu! Lobi oluşturuluyor…';
+        document.getElementById('mp-mm-spinner').textContent = '⚡';
+        document.getElementById('mp-mm-expand-box').style.display = 'none';
+        await mmCreateLobbyWith(opData.username, opponent.id);
+      }
+    } catch(e) { /* sessizce devam */ }
+  }, 1000);
+}
+
+async function mmCreateLobbyWith(opponentName, opponentDocId) {
+  // Host olarak lobi oluştur, oponenti bekle
+  const mode = _mmMode;
+  mpMode = mode;
+  const questions = mode === 'turkey' ? pickTurkeyQuestions(MP_QUESTION_COUNT)
+    : mode === 'landmark' ? pickLandmarkQuestions(MP_QUESTION_COUNT)
+    : mode === 'flag' ? pickFlagQuestions(12)
+    : pickQuestions(MP_QUESTION_COUNT);
+
+  const lobbyData = {
+    code: mpGenerateCode(),
+    lobbyName: 'QUICK MATCH',
+    isPrivate: false, password: '',
+    hostId: currentUser.username,
+    status: 'waiting',
+    mode,
+    isQuickMatch: true,
+    maxPlayers: 2,
+    questions: mode === 'flag'
+      ? questions.map(q => ({tr:q.tr,en:q.en,flag:q.flag,code:q.code||'',atr:q.atr||[],aen:q.aen||[]}))
+      : questions.map(q => ({name:q.name,name_en:q.name_en||'',country:q.country||'',city:q.city||'',lat:q.lat||0,lon:q.lon||0})),
+    players: { [currentUser.username]: { name: currentUser.username, score: 0, joinedAt: Date.now(), ready: true } },
+    scores: {}, createdAt: Date.now()
+  };
+
+  try {
+    const ref = await db.collection('mp_lobbies').add(lobbyData);
+    mpLobbyId = ref.id;
+    mpLobby = lobbyData;
+    mpIsHost = true;
+    mpMyScore = 0;
+    mpQuestions = questions;
+    // Oponent doc'unu güncelle (lobbyId ekle)
+    if (opponentDocId) {
+      db.collection('matchmaking').doc(opponentDocId).update({ lobbyId: ref.id }).catch(()=>{});
+    } else {
+      const waitingSnap = await db.collection('matchmaking')
+        .where('username', '==', opponentName).where('status', '==', 'matched').limit(1).get();
+      waitingSnap.forEach(doc => { doc.ref.update({ lobbyId: ref.id }).catch(()=>{}); });
+    }
+    if (_mmDocRef) { _mmDocRef.delete().catch(()=>{}); _mmDocRef = null; }
+    mmCleanup();
+    mpSubscribeLobby();
+    mpShowLobbyHost();
+    // 2 kişi dolunca otomatik başlat
+    const _autoStart = setInterval(async () => {
+      if (!mpLobby) { clearInterval(_autoStart); return; }
+      const pCount = Object.keys(mpLobby.players || {}).length;
+      if (pCount >= 2) { clearInterval(_autoStart); setTimeout(() => mpStartGame(), 500); }
+    }, 500);
+    setTimeout(() => clearInterval(_autoStart), 30000);
+  } catch(e) {
+    document.getElementById('mp-mm-error').textContent = 'Lobi hatası: ' + e.message;
+  }
+}
+
+async function mmJoinLobbyOf(hostName) {
+  // Kendi matchmaking doc'unu oku (lobbyId orada)
+  let lobbyId = null;
+  if (_mmDocRef) {
+    try {
+      // Biraz bekle host lobi oluşturup lobbyId yazsın
+      for (let i = 0; i < 8; i++) {
+        const mySnap = await _mmDocRef.get();
+        if (mySnap.exists && mySnap.data().lobbyId) { lobbyId = mySnap.data().lobbyId; break; }
+        await new Promise(r => setTimeout(r, 500));
+      }
+    } catch(e) {}
+  }
+  mmCleanup();
+  try {
+    if (lobbyId) {
+      const docSnap = await db.collection('mp_lobbies').doc(lobbyId).get();
+      if (docSnap.exists && docSnap.data().status === 'waiting') { await _mpDoJoin(docSnap, ''); return; }
+    }
+    // Fallback: hostId ile ara
+    const snap = await db.collection('mp_lobbies')
+      .where('hostId', '==', hostName).where('status', '==', 'waiting').where('isQuickMatch', '==', true).limit(1).get();
+    if (!snap.empty) { await _mpDoJoin(snap.docs[0], ''); }
+    else {
+      const errEl = document.getElementById('mp-mm-error');
+      if (errEl) errEl.textContent = lang==='en' ? 'Could not find lobby.' : 'Lobi bulunamadı.';
+      setTimeout(mpShowMain, 2000);
+    }
+  } catch(e) {
+    const errEl = document.getElementById('mp-mm-error');
+    if (errEl) errEl.textContent = 'Katılım hatası: ' + e.message;
+    setTimeout(mpShowMain, 2000);
+  }
+}
+
+function mmCancel() {
+  clearInterval(_mmInterval);
+  mmCleanup();
+  mpShowMain();
+}
+
+function mmCleanup() {
+  clearInterval(_mmInterval); _mmInterval = null;
+  if (_mmUnsubscribe) { _mmUnsubscribe(); _mmUnsubscribe = null; }
+  if (_mmDocRef) { _mmDocRef.delete().catch(()=>{}); _mmDocRef = null; }
+}
+
+function mpShowBrowse() {
+  ['mp-screen-main','mp-screen-create','mp-screen-join','mp-screen-lobby-host','mp-screen-lobby-guest'].forEach(id => {
+    document.getElementById(id).style.display = 'none';
+  });
+  document.getElementById('mp-screen-browse').style.display = 'block';
+  document.getElementById('mp-browse-error').textContent = '';
+  document.getElementById('mp-browse-pw-box').style.display = 'none';
+  _mpBrowsePendingDoc = null;
+  mpRefreshBrowse();
+}
+
+async function mpRefreshBrowse() {
+  const listEl = document.getElementById('mp-lobby-list');
+  const emptyEl = document.getElementById('mp-browse-empty');
+  listEl.innerHTML = '<div class="mp-lobby-empty">Aranıyor…</div>';
+  document.getElementById('mp-browse-error').textContent = '';
+  document.getElementById('mp-browse-pw-box').style.display = 'none';
+  _mpBrowsePendingDoc = null;
+  if (!db) { listEl.innerHTML = '<div class="mp-lobby-empty">Bağlantı hatası</div>'; return; }
+  try {
+    const snap = await db.collection('mp_lobbies')
+      .where('status', '==', 'waiting')
+      .limit(20)
+      .get();
+    const modeEmoji = {world:'🌍', turkey:'🇹🇷', landmark:'🏛️', flag:'🚩'};
+    listEl.innerHTML = '';
+    // Client-side sort + eski lobileri filtrele (30dk+)
+    const now = Date.now();
+    const docs = [];
+    snap.forEach(doc => {
+      const d = doc.data();
+      if (now - (d.createdAt || 0) < 30 * 60 * 1000) docs.push(doc); // 30dk
+    });
+    docs.sort((a, b) => (b.data().createdAt || 0) - (a.data().createdAt || 0));
+    if (!docs.length) { listEl.innerHTML = '<div class="mp-lobby-empty">Şu an açık lobi yok 😴</div>'; return; }
+    docs.forEach(doc => {
+      const d = doc.data();
+      if (d.hostId === currentUser?.username) return; // kendi lobiyi gösterme
+      const pCount = Object.keys(d.players || {}).length;
+      const locked = d.isPrivate;
+      const name   = d.lobbyName || d.code || '???';
+      const mode   = modeEmoji[d.mode] || '🌍';
+      const card   = document.createElement('div');
+      card.className = 'mp-lobby-card' + (locked ? ' locked' : '');
+      card.innerHTML =
+        '<div><div class="mp-lobby-card-name">' + mode + ' ' + name + '</div>'
+        + '<div class="mp-lobby-card-info">Host: ' + d.hostId + '</div></div>'
+        + '<div class="mp-lobby-card-right">'
+        + '<span class="mp-lobby-card-players">' + pCount + '/5</span>'
+        + '<span class="mp-lobby-card-lock">' + (locked ? '🔒' : '🔓') + '</span>'
+        + '</div>';
+      card.onclick = () => mpBrowseSelectLobby(doc, locked);
+      listEl.appendChild(card);
+    });
+    if (!listEl.children.length) listEl.innerHTML = '<div class="mp-lobby-empty">Katılabileceğin lobi yok</div>';
+  } catch(e) {
+    listEl.innerHTML = '<div class="mp-lobby-empty">Yükleme hatası: ' + e.message + '</div>';
+  }
+}
+
+function mpBrowseSelectLobby(doc, locked) {
+  document.getElementById('mp-browse-error').textContent = '';
+  if (!locked) {
+    // Doğrudan gir
+    const btn = document.getElementById('mp-browse-refresh');
+    btn.disabled = true;
+    _mpDoJoin(doc, '').catch(e => {
+      document.getElementById('mp-browse-error').textContent = e.message;
+      btn.disabled = false;
+    }).then(() => { btn.disabled = false; });
+  } else {
+    // Şifre kutusu aç
+    _mpBrowsePendingDoc = doc;
+    const d = doc.data();
+    document.getElementById('mp-browse-pw-label').textContent = '🔒 "' + (d.lobbyName || d.code) + '" şifreli — şifreyi gir';
+    document.getElementById('mp-browse-pw-input').value = '';
+    document.getElementById('mp-browse-pw-box').style.display = 'block';
+    document.getElementById('mp-browse-pw-input').focus();
+  }
+}
+
+async function mpBrowseJoinWithPw() {
+  if (!_mpBrowsePendingDoc) return;
+  const pw = document.getElementById('mp-browse-pw-input').value.trim();
+  const btn = document.querySelector('#mp-browse-pw-box .mp-btn');
+  btn.disabled = true; btn.textContent = '…';
+  try {
+    await _mpDoJoin(_mpBrowsePendingDoc, pw);
+  } catch(e) {
+    document.getElementById('mp-browse-error').textContent = e.message;
+    btn.disabled = false; btn.textContent = '✓ GİR';
+  }
+}
+
+function mpBrowseCancelPw() {
+  document.getElementById('mp-browse-pw-box').style.display = 'none';
+  _mpBrowsePendingDoc = null;
 }
 
 function mpSubscribeLobby() {
   if (mpUnsubscribe) mpUnsubscribe();
   mpUnsubscribe = db.collection('mp_lobbies').doc(mpLobbyId).onSnapshot(snap => {
-    if (!snap.exists) { mpCleanup(); return; }
+    if (!snap.exists) {
+      // Lobi silindi — sadece guest'e mesaj göster
+      if (mpIsHost) { mpCleanup(); return; }
+      const wasPlaying = mpGameActive;
+      const wasFlag = (gameMode === 'flag');
+      mpCleanup();
+      if (wasFlag) hideFlagScreen();
+      else if (wasPlaying) { stopTimer(); document.getElementById('mp-live-scores').style.display='none'; }
+      goToWelcome();
+      setTimeout(() => {
+        const msg = lang === 'en' ? 'Host left — lobby closed.' : 'Lobi sahibi ayrıldı, lobi kapatıldı.';
+        const errEl = document.getElementById('mp-main-error');
+        openMultiplayerMenu();
+        if (errEl) { errEl.textContent = msg; setTimeout(() => { errEl.textContent = ''; }, 4000); }
+      }, 200);
+      return;
+    }
     const prevLobby = mpLobby;
     mpLobby = snap.data();
     mpQuestions = mpLobby.questions;
+
 
     if (mpLobby.status === 'waiting') {
       // Sonuç ekranı açıksa kapat → lobi ekranına dön (Yeni Oyun sonrası)
@@ -4453,6 +5361,9 @@ function mpSubscribeLobby() {
 }
 
 function mpShowLobbyHost() {
+  // Lobi adını başlığa yaz
+  const h2 = document.getElementById('mp-lobby-h2');
+  if (h2 && mpLobby?.lobbyName) h2.textContent = '🏠 ' + mpLobby.lobbyName;
   // Lobi mod butonlarını senkronize et
   ['world','turkey','landmark','flag'].forEach(id => {
     const btn = document.getElementById('lobby-mode-'+id);
@@ -4466,7 +5377,22 @@ function mpShowLobbyHost() {
     document.getElementById(id).style.display = 'none';
   });
   document.getElementById('mp-screen-lobby-host').style.display = 'block';
-  document.getElementById('mp-lobby-code-display').textContent = mpLobby.code;
+  // Şifreli lobide kodu göster, şifresiz lobide gizle
+  const codeWrap = document.getElementById('mp-lobby-code-display');
+  if (codeWrap) {
+    if (mpLobby.isPrivate) {
+      codeWrap.textContent = mpLobby.code;
+      codeWrap.style.display = 'block';
+    } else {
+      codeWrap.style.display = 'none';
+    }
+  }
+  const lobbySub = document.getElementById('mp-lobby-sub');
+  if (lobbySub) {
+    lobbySub.textContent = mpLobby.isPrivate
+      ? (lang==='en' ? 'Share code or name with friends' : 'Kodu veya lobi adını arkadaşlarınla paylaş')
+      : (lang==='en' ? 'Friends can find you in Active Lobbies' : 'Arkadaşların Aktif Lobiler\u2019den bulabilir');
+  }
   mpUpdatePlayerList();
 }
 
@@ -4529,26 +5455,62 @@ async function mpStartGame() {
   if (playerCount < 2) { alert(t('mpErrMin2')); return; }
 
   try {
+    // Firebase'den güncel mode'u oku (mpLobbySetMode ile değişmiş olabilir)
+    const freshSnap = await db.collection('mp_lobbies').doc(mpLobbyId).get();
+    const currentMode = freshSnap.exists ? (freshSnap.data().mode || mpMode || 'world') : (mpMode || 'world');
+    mpMode = currentMode;
+
+    // Moda göre taze sorular oluştur
+    const questions = currentMode === 'turkey' ? pickTurkeyQuestions(MP_QUESTION_COUNT)
+      : currentMode === 'landmark' ? pickLandmarkQuestions(MP_QUESTION_COUNT)
+      : currentMode === 'flag' ? pickFlagQuestions(12)
+      : pickQuestions(MP_QUESTION_COUNT);
+
+    const questionsForFirebase = currentMode === 'flag'
+      ? questions.map(q => ({tr: q.tr, en: q.en, flag: q.flag, code: q.code||'', atr: q.atr||[], aen: q.aen||[]}))
+      : questions.map(q => ({name: q.name, name_en: q.name_en||'', country: q.country||'', city: q.city||'', lat: q.lat||0, lon: q.lon||0}));
+
     await db.collection('mp_lobbies').doc(mpLobbyId).update({
       status: 'playing',
+      mode: currentMode,
+      questions: questionsForFirebase,
       startedAt: Date.now(),
       currentQuestion: 0,
       showScores: -1,
       advanceAt: 0,
       photoReady: {},
-      photoReadyAt: null
+      photoReadyAt: null,
+      flagQuestion: 0,
+      flagAnswered: {},
+      flagStartAt: 0,
+      scores: {},
+      qscores: {}
     });
     // listener mpStartMultiplayerGame'i tetikleyecek
   } catch(e) { console.error('Start error:', e); }
 }
 
-function mpStartMultiplayerGame() {
+async function mpStartMultiplayerGame() {
   if (mpGameActive) return;
   mpGameActive = true;
   mpCurrentQ = 0;
   mpMyScore = 0;
   mpQuestions = mpLobby.questions;
   mpMode = mpLobby.mode;
+
+  // mode hâlâ undefined ise Firebase'den taze oku
+  if (!mpMode) {
+    try {
+      const freshSnap = await db.collection('mp_lobbies').doc(mpLobbyId).get();
+      if (freshSnap.exists) {
+        const freshData = freshSnap.data();
+        mpMode = freshData.mode || 'world';
+        mpLobby = freshData;
+        mpQuestions = freshData.questions;
+      }
+    } catch(e) { console.error('mpStartMultiplayerGame fresh read error:', e); }
+  }
+  if (!mpMode) mpMode = 'world'; // son güvenlik ağı
 
   // Modali kapat, oyunu başlat
   document.getElementById('mp-modal').classList.remove('open');
@@ -4893,11 +5855,27 @@ async function mpEndGame() {
   } catch(e) { console.error('Finish error:', e); }
 }
 
+let _mpResultsShownForLobby = null; // aynı lobi için iki kez çalışmasın
+
 function mpShowResults() {
+  // Aynı lobi için iki kez çalışma
+  if (_mpResultsShownForLobby && _mpResultsShownForLobby === mpLobbyId) return;
+  _mpResultsShownForLobby = mpLobbyId;
+
   // Hamburger menüyü geri getir
   const menuBtn = document.getElementById('btn-main-menu');
   if (menuBtn) menuBtn.style.display = '';
   if (!mpLobby) return;
+  // MP maç skorunu liderlik tablosuna kaydet
+  if (currentUser) {
+    const myMpScore = (mpLobby.scores || {})[currentUser.username] || 0;
+    if (myMpScore > 0) {
+      const prevMode = gameMode;
+      gameMode = mpLobby.mode || 'world';
+      saveScore(myMpScore, 0).catch(()=>{});
+      gameMode = prevMode;
+    }
+  }
   const scores = mpLobby.scores || {};
   const qscores = mpLobby.qscores || {};
   const players = mpLobby.players || {};
@@ -4944,11 +5922,54 @@ function mpShowResults() {
   const resultBtns = document.getElementById('mp-result-btns');
   if (resultBtns) {
     resultBtns.innerHTML = mpIsHost
-      ? `<button class="mp-btn" onclick="mpPlayAgain()" style="flex:1">${lang==='en'?'▶ PLAY AGAIN':'▶ YENİ OYUN'}</button>
-         <button class="mp-btn secondary" onclick="mpBackToMenu()" style="flex:1">${lang==='en'?'MENU':'ANA MENÜ'}</button>`
-      : `<button class="mp-btn secondary" onclick="mpBackToMenu()">${lang==='en'?'MENU':'ANA MENÜ'}</button>`;
+      ? '<button class="mp-btn" onclick="mpPlayAgain()" style="flex:1">' + (lang==='en'?'▶ PLAY AGAIN':'▶ YENİ OYUN') + '</button>'
+        + '<button class="mp-btn secondary" onclick="mpBackToMenu()" style="flex:1">' + (lang==='en'?'MENU':'ANA MENÜ') + '</button>'
+      : '<button class="mp-btn secondary" onclick="mpBackToMenu()">' + (lang==='en'?'MENU':'ANA MENÜ') + '</button>';
   }
   document.getElementById('mp-result-overlay').classList.add('show');
+
+  // Rank güncelle (sadece rastgele eşleşme lobilerinde)
+  const rankChangeEl = document.getElementById('mp-rank-change');
+  if (rankChangeEl) rankChangeEl.innerHTML = '';
+  if (mpLobby && mpLobby.isQuickMatch) {
+    const scores = mpLobby.scores || {};
+    const playerArr2 = Object.keys(scores).sort((a,b) => (scores[b]||0) - (scores[a]||0));
+    const myRank = playerArr2.indexOf(currentUser.username);
+    const won = myRank === 0;
+    updateRankAfterMatch(won, mpLobby.mode || 'world').then(result => {
+      if (!rankChangeEl) return;
+      const { oldRank, newRank, delta, games, placed, newElo } = result;
+      if (games <= RANK_PLACEMENT_GAMES) {
+        // Yerleşme maçı
+        const remaining = RANK_PLACEMENT_GAMES - games;
+        if (placed) {
+          const rankLabel = getRankLabel(newElo, lang);
+          const rankCls   = getRankClass(newElo);
+          rankChangeEl.innerHTML = '<div style="margin-top:8px">'
+            + (lang==='en' ? '🎉 Placement complete! ' : '🎉 Yerleşme tamamlandı! ')
+            + '<span class="rank-badge ' + rankCls + '">' + getRankEmoji(newElo) + ' ' + rankLabel + '</span></div>';
+        } else {
+          rankChangeEl.innerHTML = '<div style="color:var(--muted);font-size:.82rem;margin-top:6px">'
+            + (lang==='en' ? 'Placement: ' : 'Yerleşme: ')
+            + (RANK_PLACEMENT_GAMES - games + 1) + ' / ' + RANK_PLACEMENT_GAMES + '</div>';
+        }
+      } else if (oldRank && newRank) {
+        const sign = delta >= 0 ? '+' : '';
+        if (newRank.key !== oldRank.key) {
+          const up = RANK_TIERS.findIndex(t=>t.key===newRank.key) > RANK_TIERS.findIndex(t=>t.key===oldRank.key);
+          const newLabel = getRankLabel(newElo, lang);
+          const newCls   = getRankClass(newElo);
+          rankChangeEl.innerHTML = '<div class="' + (up?'rank-up':'rank-down') + '" style="margin-top:8px">'
+            + (up ? '⬆ ' : '⬇ ') + (lang==='en'?(up?'Rank Up! ':'Rank Down! '):(up?'RANK ATLADINIZ! ':'RANK DÜŞTÜNÜZ! '))
+            + '<span class="rank-badge ' + newCls + '">' + getRankEmoji(newElo) + ' ' + newLabel + '</span></div>';
+        } else {
+          const cls = delta >= 0 ? 'rank-up' : 'rank-down';
+          rankChangeEl.innerHTML = '<div class="' + cls + '" style="font-size:.85rem;margin-top:6px">'
+            + sign + delta + ' ELO</div>';
+        }
+      }
+    });
+  }
 }
 
 async function mpPlayAgain() {
@@ -5008,6 +6029,7 @@ async function mpLeaveLobby() {
 }
 
 function mpCleanup() {
+  _mpResultsShownForLobby = null; // guard sıfırla
   if (mpUnsubscribe) { mpUnsubscribe(); mpUnsubscribe = null; }
   if (typeof mpCancelAdvance === 'function') mpCancelAdvance();
   if (window._mpCountdownInterval) { clearInterval(window._mpCountdownInterval); window._mpCountdownInterval = null; }
@@ -5245,6 +6267,7 @@ let flagState = {
   currentLevel: 1,
   grandTotal: 0,
   _allAnsweredTriggered: false,
+  _betweenTimeout: null,
 };
 
 const FLAG_Q_COUNT    = 15;
@@ -5280,6 +6303,7 @@ function hideFlagScreen() {
   // Timer'ları ve countdown'ları temizle
   flagStopTimer();
   if (flagState.nextCountdown) { clearInterval(flagState.nextCountdown); flagState.nextCountdown = null; }
+  if (flagState._betweenTimeout) { clearTimeout(flagState._betweenTimeout); flagState._betweenTimeout = null; }
   // Answered true yap ki flagTimesUp/flagSubmit artık tetiklenmesin
   flagState.answered = true;
   document.getElementById('flag-screen').classList.remove('show');
@@ -5324,6 +6348,7 @@ function startFlagSolo() {
 }
 
 function flagLoadQuestion() {
+
   if (flagState.qIndex >= flagState.questions.length) {
     flagEndRound(); return;
   }
@@ -5333,13 +6358,14 @@ function flagLoadQuestion() {
   flagState.timeLeft  = FLAG_FULL_TIME;
 
   const flagImg = document.getElementById('flag-img');
+  flagImg.style.display = 'block'; // her soruda sıfırla
   if (country.code) {
     flagImg.src = `https://flagcdn.com/w320/${country.code}.png`;
     flagImg.srcset = `https://flagcdn.com/w160/${country.code}.png 160w, https://flagcdn.com/w320/${country.code}.png 320w`;
     flagImg.alt = country.en;
   } else {
-    // fallback: emoji
-    flagImg.src = `https://flagcdn.com/w320/un.png`;
+    flagImg.src = '';
+    flagImg.style.display = 'none';
     flagImg.alt = country.en;
   }
   const lvlTxt = flagState.solo ? ` · ${lang==='en'?'Lv':'Sv'} ${flagState.currentLevel}` : '';
@@ -5368,12 +6394,50 @@ function flagLoadQuestion() {
   document.getElementById('flag-live-scores').innerHTML = '';
 
   if (!flagState.solo) flagUpdatePlayerChips();
-  flagStartTimer();
+
+  if (flagState.solo) {
+    flagStartTimer();
+  } else {
+    // MP: host flagStartAt timestamp yazar, herkes o zamana göre başlar
+    if (mpIsHost) {
+      db.collection('mp_lobbies').doc(mpLobbyId).update({
+        flagStartAt: Date.now()
+      }).catch(e => console.error('flagStartAt write error', e));
+    }
+    // mpHandleFlagUpdate flagStartAt'i alınca flagStartTimerAt() çağıracak
+  }
 
   // Masaüstünde otomatik focus, mobilde değil (klavye açılmasın)
   if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
     setTimeout(() => { const inp = document.getElementById('flag-input'); if (inp) inp.focus(); }, 100);
   }
+}
+
+function flagStartTimerAt(startTs) {
+  // Sunucu timestamp'ine göre kaç saniye geçmiş hesapla
+  const elapsed = Math.floor((Date.now() - startTs) / 1000);
+  const remaining = Math.max(0, FLAG_FULL_TIME - elapsed);
+  flagState.timeLeft = remaining;
+  if (flagState.timerInterval) clearInterval(flagState.timerInterval);
+  const bar = document.getElementById('flag-timer-bar');
+  const pct = (remaining / FLAG_FULL_TIME) * 100;
+  bar.style.transition = 'none';
+  bar.style.width = pct + '%';
+  document.getElementById('flag-time-left').textContent = remaining;
+  if (remaining <= 0) { flagTimesUp(); return; }
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    bar.style.transition = `width ${remaining}s linear`;
+    bar.style.width = '0%';
+  }));
+  flagState.timerInterval = setInterval(() => {
+    flagState.timeLeft--;
+    document.getElementById('flag-time-left').textContent = flagState.timeLeft;
+    if (flagState.timeLeft <= 0) {
+      clearInterval(flagState.timerInterval);
+      flagState.timerInterval = null;
+      flagTimesUp();
+    }
+  }, 1000);
 }
 
 function flagStartTimer() {
@@ -5422,15 +6486,10 @@ function flagTimesUp() {
     : `⏱ Süre doldu! Cevap: ${country.tr}`;
   if (flagState.solo) {
     flagState.soloResults.push({country, score: 0, correct: false});
-    setTimeout(() => flagShowBetween(0, false), 1000);
+    flagState._betweenTimeout = setTimeout(() => { flagState._betweenTimeout = null; flagShowBetween(0, false); }, 1000);
   } else if (typeof mpGameActive !== 'undefined' && mpGameActive && mpLobbyId) {
+    flagShowBetween(0, false);
     flagMpSubmit(0);
-    // Süre doldu → between ekranını direkt aç, sonraki soru host yönetir
-    setTimeout(() => {
-      if (document.getElementById('flag-between-overlay').style.display !== 'flex') {
-        flagShowBetween(0, false);
-      }
-    }, 600);
   } else {
     flagShowBetween(0, false);
   }
@@ -5465,16 +6524,11 @@ function flagSubmit() {
 
   if (flagState.solo) {
     flagState.soloResults.push({country, score, correct});
-    setTimeout(() => flagShowBetween(score, correct), 800);
+    flagState._betweenTimeout = setTimeout(() => { flagState._betweenTimeout = null; flagShowBetween(score, correct); }, 800);
   } else if (typeof mpGameActive !== 'undefined' && mpGameActive && mpLobbyId) {
+    // Between'i hemen aç, Firebase'i arka planda yaz
+    flagShowBetween(score, correct);
     flagMpSubmit(score);
-    // Cevap verildi → kendi between ekranını aç
-    // (diğer oyuncu da cevap verdiğinde mpHandleFlagUpdate günceller)
-    setTimeout(() => {
-      if (document.getElementById('flag-between-overlay').style.display !== 'flex') {
-        flagShowBetween(score, correct);
-      }
-    }, 400);
   } else {
     setTimeout(() => flagShowBetween(score, correct), 800);
   }
@@ -5488,9 +6542,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // ── MP ───────────────────────────────────────────────────────────────────────
 async function flagMpSubmit(score) {
+
   if (!mpLobbyId) return;
   const qIdx   = flagState.qIndex;
   const myName = currentUser.username;
+  flagState.myScore += score; // local skoru güncelle
   try {
     await db.collection('mp_lobbies').doc(mpLobbyId).update({
       [`scores.${myName}`]:           (mpLobby.scores?.[myName] || 0) + score,
@@ -5498,8 +6554,6 @@ async function flagMpSubmit(score) {
       [`flagAnswered.${myName}`]:      qIdx,
     });
   } catch(e) { console.error('flagMpSubmit error', e); }
-  // Her oyuncu cevabından sonra between ekranını local aç
-  // (mpHandleFlagUpdate flagAnswered değişimini algılayacak)
 }
 
 function flagUpdatePlayerChips() {
@@ -5587,15 +6641,17 @@ function flagShowBetween(myScore, correct) {
         flagState.answered = false;
         flagLoadQuestion();
       } else if (typeof mpGameActive !== 'undefined' && mpGameActive) {
-        if (mpIsHost) {
-          // Host: sadece Firebase'e yaz — mpHandleFlagUpdate herkes için yükler
+        if (mpIsHost && flagState._allAnsweredTriggered) {
+          // Herkes cevapladı → sonraki soruya geç
           const nextQ = flagState.qIndex + 1;
           db.collection('mp_lobbies').doc(mpLobbyId).update({
             flagQuestion: nextQ,
             flagAnswered: {},
+            flagStartAt: 0,
           }).catch(e => console.error('flag advance error', e));
         }
-        // Host ve guest: mpHandleFlagUpdate flagQuestion'ı alınca yükler
+        // Guest veya henüz herkes cevaplamamışsa: mpHandleFlagUpdate beklenecek
+        // Between overlay açık kalır, mpHandleFlagUpdate flagQuestion değişince geçer
       }
     }
   }, 1000);
@@ -5631,7 +6687,12 @@ function flagEndRound() {
 }
 
 function flagBackToMenu() {
-  goToWelcome();
+  if (mpGameActive && mpLobbyId) {
+    // MP flag oyunundayken çıkış → lobiden ayrıl
+    mpLeaveLobby();
+  } else {
+    goToWelcome();
+  }
 }
 
 function openFlagMenu() {
@@ -5639,16 +6700,16 @@ function openFlagMenu() {
   // "Devam Et" butonu flagı kapatmaz, sadece modal kapanır
   const resumeBtn = document.getElementById('mm-btn-resume');
   if (resumeBtn) {
-    resumeBtn.textContent = lang === 'en' ? '▶ CONTINUE' : '▶ OYUNA DEVAM ET';
+    resumeBtn.textContent = t('mpResume');
     resumeBtn.onclick = () => closeMainMenu(); // sadece modal kapat, flag devam eder
   }
   // Yeni oyun butonları flag moduna geçmemeli, flag çıkışını halledelim
   const mmWorld = document.getElementById('mm-btn-world');
-  if (mmWorld) mmWorld.onclick = () => { hideFlagScreen(); mainMenuStart('world'); };
+  if (mmWorld) mmWorld.onclick = () => { if (mpGameActive && mpLobbyId) mpLeaveLobby(); else hideFlagScreen(); mainMenuStart('world'); };
   const mmTurkey = document.getElementById('mm-btn-turkey');
-  if (mmTurkey) mmTurkey.onclick = () => { hideFlagScreen(); mainMenuStart('turkey'); };
+  if (mmTurkey) mmTurkey.onclick = () => { if (mpGameActive && mpLobbyId) mpLeaveLobby(); else hideFlagScreen(); mainMenuStart('turkey'); };
   const mmLandmark = document.getElementById('mm-btn-landmark');
-  if (mmLandmark) mmLandmark.onclick = () => { hideFlagScreen(); mainMenuStart('landmark'); };
+  if (mmLandmark) mmLandmark.onclick = () => { if (mpGameActive && mpLobbyId) mpLeaveLobby(); else hideFlagScreen(); mainMenuStart('landmark'); };
   const mmFlag = document.getElementById('mm-btn-flag');
   if (mmFlag) mmFlag.onclick = () => { closeMainMenu(); hideFlagScreen(); startFlagSolo(); };
   document.getElementById('main-menu-modal').style.display = 'flex';
@@ -5749,8 +6810,8 @@ function flagRetryLevel() {
 
 function mpHandleFlagUpdate(lobbyData) {
   if (gameMode !== 'flag') return;
-
   const qIdx = flagState.qIndex;
+
 
   // ── flagAnswered güncellemesi: between ekranı açıksa skoru güncelle ──────
   if (document.getElementById('flag-between-overlay').style.display === 'flex') {
@@ -5790,12 +6851,43 @@ function mpHandleFlagUpdate(lobbyData) {
         document.getElementById('flag-input').disabled = true;
         document.getElementById('flag-submit-btn').disabled = true;
       }
-      // Between zaten açık değilse aç
-      if (document.getElementById('flag-between-overlay').style.display !== 'flex') {
+      // Between açıksa sadece listeyi güncelle (sayacı sıfırlama!)
+      // Açık değilse aç
+      const _betweenOpen = document.getElementById('flag-between-overlay').style.display === 'flex';
+      if (!_betweenOpen) {
         const myQ = (lobbyData.qscores?.[currentUser.username]?.[`q${qIdx}`]) ?? 0;
         flagShowBetween(myQ, myQ > 0);
       }
+      // Her iki durumda da sayacı yeniden başlat (herkes cevapladı → 3s sonra geç)
+      // Ama sadece host için — host Firebase'e yazacak
+      if (mpIsHost) {
+        let _aaCd = 3;
+        const _aaEl = document.getElementById('flag-between-next');
+        if (_aaEl) _aaEl.textContent = (lang==='en'?'Next in':'Sonraki') + ' ' + _aaCd + 's';
+        if (flagState.nextCountdown) clearInterval(flagState.nextCountdown);
+        flagState.nextCountdown = setInterval(() => {
+          _aaCd--;
+          if (_aaEl) _aaEl.textContent = _aaCd > 0 ? (lang==='en'?'Next in':'Sonraki')+' '+_aaCd+'s' : '…';
+          if (_aaCd <= 0) {
+            clearInterval(flagState.nextCountdown);
+            flagState.nextCountdown = null;
+            document.getElementById('flag-between-overlay').style.display = 'none';
+            const nextQ = flagState.qIndex + 1;
+            db.collection('mp_lobbies').doc(mpLobbyId).update({
+              flagQuestion: nextQ,
+              flagAnswered: {},
+            }).catch(e => console.error('flag advance error', e));
+          }
+        }, 1000);
+      }
     }
+  }
+
+  // ── flagStartAt: herkes aynı anda timer başlatsın ──────────────────────────
+  const fStartAt = lobbyData.flagStartAt || 0;
+  if (fStartAt > 0 && !flagState.timerInterval && !flagState.answered) {
+    // timestamp'e göre senkronize başlat
+    flagStartTimerAt(fStartAt);
   }
 
   // ── flagQuestion: TÜM oyuncular (host dahil) sonraki soruya geç ───────────
