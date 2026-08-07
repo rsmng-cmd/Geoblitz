@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="GeoMeister">
+  <meta name="theme-color" content="#0a0e1a">
+  
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+  
+  <title>GeoMeister — Geography Game</title>
+  
+  <!-- D3 and TopoJSON via CDN -->
+  
+  
+  
+  <!-- Firebase SDK via CDN (Compat Mode) -->
+  
+  
+  
+  
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/modals.css">
+  <link rel="stylesheet" href="css/toast.css">
+  <link rel="stylesheet" href="css/game.css">
+  <link rel="stylesheet" href="css/leaderboard.css">
+  <link rel="stylesheet" href="css/flag.css">
+  <link rel="stylesheet" href="css/responsive.css">
+
+  <!-- D3 and TopoJSON via CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
+  
+  <!-- Firebase SDK via CDN (Compat Mode) -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+\n</head>
+<body>
+
+  <button type="button" id="btn-fullscreen" onclick="toggleFullscreen()">â›¶ TAM EKRAN</button>
+
+  <div id="topbar">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <button type="button" id="btn-main-menu" onclick="openMainMenu()" title="Ana MenÃ¼"
+        style="background:var(--bg);border:1px solid var(--border);border-radius:8px;width:36px;height:36px;color:var(--text);font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;touch-action:manipulation;-webkit-tap-highlight-color:transparent;flex-shrink:0;">â˜°</button>
+      <div id="logo">ğŸŒ GEOMEISTER</div>
+    </div>
+    <div class="bar-section">
+      <div id="level-badge">SEVÄ°YE 1</div>
+      <div id="q-dots"></div>
+    </div>
+    <div class="bar-section">
+      <div class="stat-box">
+        <div class="label">Puan</div>
+        <div class="value" id="score-display">0</div>
+      </div>
+      <div class="stat-box">
+        <div class="label">Hedef</div>
+        <div class="value" id="target-display">â€”</div>
+      </div>
+    </div>
+    <!-- MP live scores â€” topbar iÃ§inde, sadece MP aktifken gÃ¶rÃ¼nÃ¼r -->
+    <div id="mp-live-scores"></div>
+    <div id="user-info">
+      <div id="user-avatar" onclick="openOwnProfile()" title="Profili GÃ¶rÃ¼ntÃ¼le" style="cursor:pointer;">?</div>
+      <div id="user-name-display"
+        style="font-size:.85rem;color:var(--text);max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+        â€”</div>
+    </div>
+  </div>
+
+  <div id="progress-wrap">
+    <div id="progress-label"><span id="progress-label-text">Ä°lerleme</span><span id="progress-text">0 / 0</span></div>
+    <div id="progress-bar-bg">
+      <div id="progress-bar-fill"></div>
+    </div>
+  </div>
+
+  <div id="question-banner">
+    <div id="question-text">Haritada iÅŸaretle!</div>
+    <div id="city-line">
+      <div id="city-name">â€”</div>
+      <div id="city-country"></div>
+    </div>
+  </div>
+
+  <div id="timer-wrap">
+    <div id="timer-bar-bg">
+      <div id="timer-bar-fill"></div>
+    </div>
+    <div id="timer-label">15</div>
+  </div>
+
+  <div id="map-container">
+    <div id="loading-error"
+      style="display:none;position:absolute;inset:0;z-index:999;background:rgba(10,14,26,0.95);color:#f55;align-items:center;justify-content:center;font-family:sans-serif;padding:20px;text-align:center;">
+      Harita yÃ¼klenemedi. LÃ¼tfen internet baÄŸlantÄ±nÄ±zÄ± kontrol edin ve sayfayÄ± yenileyin.
+    </div>
+    <svg id="world-svg"></svg>
+    <svg id="turkey-svg" style="position:absolute;inset:0;width:100%;height:100%;display:none;cursor:crosshair;"></svg>
+    <svg id="europe-svg" style="position:absolute;inset:0;width:100%;height:100%;display:none;cursor:crosshair;touch-action:none;"></svg>
+
+    <div id="combo-badge">KOMBO x1.0</div>
+
+    <div id="zoom-controls">
+      <button type="button" class="zoom-btn" id="btn-zoom-in">ï¼‹</button>
+      <button type="button" class="zoom-btn" id="btn-zoom-out">ï¼</button>
+      <button type="button" class="zoom-btn" id="btn-zoom-reset">â†º</button>
+    </div>
+
+    <div id="result-toast" style="display:none">
+      <div>
+        <div class="result-score" id="toast-score">+0</div>
+        <div class="result-dist" id="toast-dist"></div>
+      </div>
+      <button type="button" class="result-btn" id="btn-next-q" onclick="nextQuestion()"
+        style="touch-action:manipulation;-webkit-tap-highlight-color:transparent;">DEVAM â†’</button>
+    </div>
+  </div>
+
+  <div id="overlay" class="hidden">
+    <div id="overlay-box">
+      <h2 id="overlay-title">GEOMEISTER</h2>
+      <p id="overlay-desc">Haritada ÅŸehirlerin yerini bul,<br>puan topla, seviyeleri geÃ§!</p>
+      <div id="overlay-buttons">
+        <button type="button" class="overlay-btn" onclick="startGame()">BAÅLA</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FULLSCREEN PROMPT -->
+  <div id="fs-modal"
+    style="display:none;position:fixed;inset:0;background:rgba(10,14,26,.97);align-items:center;justify-content:center;z-index:600;">
+    <div
+      style="background:#111827;border:1px solid #1e2d45;border-radius:20px;padding:36px 32px;text-align:center;max-width:340px;width:90%;">
+      <div style="font-size:2.5rem;margin-bottom:12px;">ğŸ“±</div>
+      <h2 id="fs-title"
+        style="font-family:'Bebas Neue',cursive;font-size:1.8rem;letter-spacing:3px;color:#f0a500;margin-bottom:10px;">
+        MOBÄ°L ALGILANDI</h2>
+      <p id="fs-desc" style="color:#5a6a80;font-size:.88rem;line-height:1.6;margin-bottom:24px;">Daha iyi bir deneyim
+        iÃ§in tam ekrana geÃ§mek ister misiniz?</p>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <button type="button" id="fs-yes" onclick="acceptFullscreen()"
+          style="padding:13px;background:linear-gradient(135deg,#e05c2a,#f0a500);color:#000;border:none;border-radius:10px;font-family:'Bebas Neue',cursive;font-size:1.1rem;letter-spacing:2px;cursor:pointer;">TAM
+          EKRANA GEÃ‡</button>
+        <button type="button" id="fs-no" onclick="declineFullscreen()"
+          style="padding:11px;background:transparent;color:#5a6a80;border:1px solid #1e2d45;border-radius:10px;font-family:'Bebas Neue',cursive;font-size:.9rem;letter-spacing:1px;cursor:pointer;">HAYIR,
+          DEVAM ET</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- AUTH MODAL -->
+  <div id="auth-modal">
+    <div id="auth-box">
+      <div style="text-align:center;margin-bottom:8px;">
+        <img src="Logo.png" alt="GeoMeister" style="height:90px;width:auto;object-fit:contain;" onerror="this.style.display='none';document.getElementById('auth-logo-text').style.display='block';" />
+        <h2 id="auth-logo-text" style="display:none;">ğŸŒ GEOMEISTER</h2>
+      </div>
+      <div class="auth-subtitle" id="auth-subtitle">GiriÅŸ yap veya kayÄ±t ol</div>
+      <div id="auth-lang-selector" style="display:flex;gap:8px;justify-content:center;margin-bottom:18px;">
+        <button type="button" id="auth-lang-tr"
+          style="background:rgba(240,165,0,.12);border:2px solid var(--accent);border-radius:8px;padding:6px 14px;color:var(--accent);font-family:'Bebas Neue',cursive;font-size:.9rem;letter-spacing:1px;cursor:pointer;touch-action:manipulation;"
+          onclick="setLang('tr')">ğŸ‡¹ğŸ‡· TÃœRKÃ‡E</button>
+        <button type="button" id="auth-lang-en"
+          style="background:transparent;border:2px solid var(--border);border-radius:8px;padding:6px 14px;color:var(--muted);font-family:'Bebas Neue',cursive;font-size:.9rem;letter-spacing:1px;cursor:pointer;touch-action:manipulation;"
+          onclick="setLang('en')">ğŸ‡¬ğŸ‡§ ENGLISH</button>
+      </div>
+
+      <!-- GiriÅŸ / KayÄ±t ekranÄ± -->
+      <div id="auth-screen-main">
+        <div class="auth-tabs">
+          <button type="button" class="auth-tab active" id="auth-tab-login">GÄ°RÄ°Å YAP</button>
+          <button type="button" class="auth-tab" id="auth-tab-register">KAYIT OL</button>
+        </div>
+        <div class="auth-error" id="auth-error"></div>
+        <!-- Login: e-posta veya kullanÄ±cÄ± adÄ± -->
+        <input class="auth-input" id="auth-identifier" type="text" placeholder="E-posta veya kullanÄ±cÄ± adÄ±"
+          autocomplete="username" style="display:block;" />
+        <!-- KayÄ±t: e-posta zorunlu (ayrÄ±ca gÃ¶ster) -->
+        <input class="auth-input" id="auth-email" type="email" placeholder="E-posta" autocomplete="email"
+          style="display:none;" />
+        <input class="auth-input" id="auth-password" type="password" placeholder="Åifre" maxlength="40"
+          autocomplete="current-password" />
+        <!-- Beni HatÄ±rla â€” sadece giriÅŸ modunda -->
+        <div id="auth-remember-row" style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+          <input type="checkbox" id="auth-remember-check"
+            style="width:16px;height:16px;accent-color:var(--accent);cursor:pointer;flex-shrink:0;" />
+          <label for="auth-remember-check" style="font-size:.82rem;color:var(--muted);cursor:pointer;" id="auth-remember-label">Beni hatÄ±rla</label>
+        </div>
+        <!-- SÃ¶zleÅŸme onayÄ± â€” sadece kayÄ±t modunda gÃ¶sterilir -->
+        <div id="auth-terms-row" style="display:none;margin-bottom:12px;">
+          <!-- Kutucuk 1: Gizlilik PolitikasÄ± -->
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:8px;">
+            <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;user-select:none;">
+              <input type="checkbox" id="auth-privacy-check" disabled
+                style="width:18px;height:18px;min-width:18px;margin-top:2px;accent-color:var(--accent);cursor:pointer;" />
+              <span style="font-size:.8rem;color:var(--muted);line-height:1.5;" id="auth-privacy-label">
+                <a onclick="openDocModal('privacy')" style="color:var(--accent);cursor:pointer;text-decoration:underline;" id="lnk-privacy">Gizlilik PolitikasÄ±</a>'nÄ±
+                okudum ve kabul ediyorum.
+              </span>
+            </label>
+          </div>
+          <!-- Kutucuk 2: KullanÄ±m ÅartlarÄ± -->
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:8px;">
+            <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;user-select:none;">
+              <input type="checkbox" id="auth-terms-check" disabled
+                style="width:18px;height:18px;min-width:18px;margin-top:2px;accent-color:var(--accent);cursor:pointer;" />
+              <span style="font-size:.8rem;color:var(--muted);line-height:1.5;" id="auth-terms-label">
+                <a onclick="openDocModal('terms')" style="color:var(--accent);cursor:pointer;text-decoration:underline;" id="lnk-terms">KullanÄ±m ÅartlarÄ±</a>'nÄ±
+                okudum ve kabul ediyorum.
+              </span>
+            </label>
+          </div>
+          <!-- Kutucuk 3: KVKK â€” sadece TR kullanÄ±cÄ±lar iÃ§in -->
+          <div id="auth-kvkk-row" style="display:none;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px 14px;">
+            <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;user-select:none;">
+              <input type="checkbox" id="auth-kvkk-check" disabled
+                style="width:18px;height:18px;min-width:18px;margin-top:2px;accent-color:var(--accent);cursor:pointer;" />
+              <span style="font-size:.8rem;color:var(--muted);line-height:1.5;">
+                <a onclick="openDocModal('kvkk')" style="color:var(--accent);cursor:pointer;text-decoration:underline;" id="lnk-kvkk">KVKK AydÄ±nlatma Metni</a>'ni
+                okudum ve kabul ediyorum.
+              </span>
+            </label>
+          </div>
+        </div>
+        <button type="button" class="auth-submit" id="auth-submit-btn">DEVAM</button>
+        <div style="text-align:center;margin-top:8px;">
+          <a id="auth-forgot-link"
+            style="color:var(--muted);font-size:.8rem;cursor:pointer;text-decoration:underline;">Åifremi unuttum</a>
+        </div>
+        <div class="auth-guest" id="auth-guest-line">ya da <a
+            style="touch-action:manipulation;-webkit-tap-highlight-color:transparent;">misafir olarak oyna</a></div>
+      </div>
+
+      <!-- KullanÄ±cÄ± adÄ± ekranÄ± (kayÄ±t sonrasÄ±) -->
+      <div id="auth-screen-username" style="display:none;">
+        <div style="font-size:.9rem;color:var(--muted);margin-bottom:16px;text-align:center;"
+          id="auth-username-subtitle">Liderlik tablosunda gÃ¶rÃ¼necek kullanÄ±cÄ± adÄ±nÄ± seÃ§</div>
+        <div class="auth-error" id="auth-username-error"></div>
+        <input class="auth-input" id="auth-username-input" type="text" placeholder="KullanÄ±cÄ± adÄ± (2-20 karakter)"
+          maxlength="20" autocomplete="off" />
+        <button type="button" class="auth-submit" id="auth-username-btn">DEVAM</button>
+      </div>
+
+      <!-- Åifre sÄ±fÄ±rlama ekranÄ± -->
+      <div id="auth-screen-forgot" style="display:none;">
+        <div style="font-size:.9rem;color:var(--muted);margin-bottom:16px;text-align:center;" id="auth-forgot-subtitle">
+          E-posta adresine ÅŸifre sÄ±fÄ±rlama linki gÃ¶nderilecek</div>
+        <div class="auth-error" id="auth-forgot-error"></div>
+        <input class="auth-input" id="auth-forgot-email" type="email" placeholder="E-posta" />
+        <button type="button" class="auth-submit" id="auth-forgot-btn">GÃ–NDER</button>
+        <div style="text-align:center;margin-top:8px;">
+          <a id="auth-back-link" style="color:var(--muted);font-size:.8rem;cursor:pointer;text-decoration:underline;">â†
+            Geri</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WELCOME / START MODAL -->
+  <div id="welcome-modal">
+    <div id="welcome-box">
+      <div style="text-align:center;margin-bottom:4px;">
+        <img src="Logo.png" alt="GeoMeister" style="height:100px;width:auto;object-fit:contain;" onerror="this.style.display='none';document.getElementById('welcome-logo-text').style.display='block';" />
+        <h2 id="welcome-logo-text" style="display:none;">ğŸŒ GEOMEISTER</h2>
+      </div>
+      <div class="welcome-user" id="welcome-user-text">HoÅŸ geldin, <span id="welcome-username"></span>!</div>
+      
+      <!-- Banner Reklam AlanÄ± -->
+      <div id="welcome-banner-ad" class="ad-container">
+        <div class="banner-ad">Reklam AlanÄ±</div>
+      </div>
+      
+      <div id="lang-selector">
+        <button type="button" class="lang-btn active" onclick="setLang('tr')" id="lang-tr">ğŸ‡¹ğŸ‡· TÃœRKÃ‡E</button>
+        <button type="button" class="lang-btn" onclick="setLang('en')" id="lang-en">ENGLISH ğŸ‡¬ğŸ‡§</button>
+      </div>
+      <div id="welcome-buttons" style="display:flex;flex-direction:column;gap:10px;">
+        <div style="display:flex;gap:10px;">
+          <button type="button" class="overlay-btn" onclick="welcomeStart('world')" id="btn-play-world"
+            style="flex:1;font-size:1.1rem;padding:15px 10px;">ğŸŒ DÃœNYA</button>
+          <button type="button" class="overlay-btn" onclick="welcomeStart('europe')" id="btn-play-europe"
+            style="flex:1;font-size:1.1rem;padding:15px 10px;background:linear-gradient(135deg,#2563eb,#60a5fa);">ğŸ‡ªğŸ‡º
+            AVRUPA</button>
+          <button type="button" class="overlay-btn" onclick="welcomeStart('turkey')" id="btn-play-turkey"
+            style="flex:1;font-size:1.1rem;padding:15px 10px;background:linear-gradient(135deg,#c0392b,#e74c3c);">ğŸ‡¹ğŸ‡·
+            TÃœRKÄ°YE</button>
+        </div>
+        <button type="button" class="overlay-btn" onclick="startFlagSolo()" id="btn-play-flag"
+          style="width:100%;font-size:1.1rem;padding:15px 10px;background:linear-gradient(135deg,#b71c1c,#e53935);">ğŸš©
+          <span id="btn-flag-label">BAYRAK YARIÅI</span></button>
+        <button type="button" class="overlay-btn" onclick="openMultiplayerMenu()" id="btn-multiplayer"
+          style="background:linear-gradient(135deg,#1a6b9a,#2196F3);font-size:1.1rem;padding:15px 10px;"
+          id="btn-mp-label">âš”ï¸ MULTIPLAYER</button>
+        <button type="button" class="overlay-btn secondary" onclick="showLeaderboard('welcome')" id="btn-welcome-lb">ğŸ†
+          LÄ°DERLÄ°K TABLOSU</button>
+        <button type="button" class="overlay-btn secondary" onclick="openSearchModal()" id="btn-search-player">ğŸ” OYUNCU ARA</button>
+        <button type="button" class="overlay-btn secondary" onclick="openOptions('welcome')" id="btn-options-welcome">âš™ï¸
+          SEÃ‡ENEKLER</button>
+        <div style="display:flex;gap:4px;margin-top:8px;justify-content:center;">
+          <button type="button" id="btn-privacy" class="overlay-btn" style="flex:1;font-size:.7rem;padding:6px 4px;background:transparent;color:var(--muted);border:1px solid var(--border);" onclick="openDocModal('privacy')">Gizlilik</button>
+          <button type="button" id="btn-terms" class="overlay-btn" style="flex:1;font-size:.7rem;padding:6px 4px;background:transparent;color:var(--muted);border:1px solid var(--border);" onclick="openDocModal('terms')">Åartlar</button>
+        </div>
+        <button type="button" class="overlay-btn danger" onclick="authLogout()" id="btn-welcome-logout">ğŸšª Ã‡IKIÅ
+          YAP</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ANA MENÃœ MODAL (oyun sÄ±rasÄ±nda) -->
+  <div id="main-menu-modal"
+    style="display:none;position:fixed;inset:0;background:rgba(10,14,26,.97);align-items:center;justify-content:center;z-index:450;">
+    <div
+      style="background:var(--panel);border:1px solid var(--border);border-radius:20px;padding:28px 32px;text-align:center;max-width:360px;width:92%;">
+      <h2
+        style="font-family:'Bebas Neue',cursive;font-size:2rem;color:var(--accent);letter-spacing:3px;margin-bottom:6px;">
+        ğŸŒ GEOMEISTER</h2>
+      <div style="color:var(--muted);font-size:.8rem;margin-bottom:20px;" id="main-menu-mode-label"></div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <button type="button" class="overlay-btn secondary" onclick="closeMainMenu()" id="mm-btn-resume"
+          style="width:100%;font-size:1rem;padding:11px 8px;border-color:var(--accent);color:var(--accent);">â–¶ OYUNA
+          DEVAM ET</button>
+        <div style="display:flex;gap:10px;">
+          <button type="button" class="overlay-btn" onclick="mainMenuStart('world')" id="mm-btn-world"
+            style="flex:1;font-size:1rem;padding:13px 8px;">ğŸŒ DÃœNYA</button>
+          <button type="button" class="overlay-btn" onclick="mainMenuStart('europe')" id="mm-btn-europe"
+            style="flex:1;font-size:1rem;padding:13px 8px;background:linear-gradient(135deg,#2563eb,#60a5fa);">ğŸ‡ªğŸ‡º
+            AVRUPA</button>
+          <button type="button" class="overlay-btn" onclick="mainMenuStart('turkey')" id="mm-btn-turkey"
+            style="flex:1;font-size:1rem;padding:13px 8px;background:linear-gradient(135deg,#c0392b,#e74c3c);">ğŸ‡¹ğŸ‡·
+            TÃœRKÄ°YE</button>
+        </div>
+        <button type="button" class="overlay-btn" onclick="closeMainMenu();startFlagSolo()" id="mm-btn-flag"
+          style="width:100%;font-size:1rem;padding:13px 8px;background:linear-gradient(135deg,#b71c1c,#e53935);">ğŸš©
+          <span id="mm-flag-label">BAYRAK YARIÅI</span></button>
+        <button type="button" class="overlay-btn secondary" onclick="closeMainMenu();showLeaderboard('game')" id="mm-btn-lb">ğŸ†
+          LÄ°DERLÄ°K TABLOSU</button>
+        <button type="button" class="overlay-btn secondary" onclick="closeMainMenu();openOptions(null)" id="mm-btn-options">âš™ï¸
+          SEÃ‡ENEKLER</button>
+        <button type="button" class="overlay-btn" onclick="closeMainMenu();openMultiplayerMenu();"
+          id="mm-btn-multiplayer" style="background:linear-gradient(135deg,#1a6b9a,#2196F3);">âš”ï¸ MULTIPLAYER</button>
+        <button type="button" class="overlay-btn secondary" onclick="mmGoToWelcome()" id="mm-btn-home">ğŸ  ANA MENÃœ</button>
+        <button type="button" class="overlay-btn danger" onclick="authLogout()" id="mm-btn-logout">ğŸšª Ã‡IKIÅ YAP</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- OPTIONS / KEY BINDING MODAL -->
+  <div id="options-modal"
+    style="position:fixed;inset:0;background:rgba(10,14,26,.97);display:none;align-items:center;justify-content:center;z-index:450;overflow-y:auto;">
+    <div id="options-box"
+      style="background:var(--panel);border:1px solid var(--border);border-radius:20px;padding:36px 40px;max-width:420px;width:92%;margin:auto;">
+      <h2 id="opt-title"
+        style="font-family:'Bebas Neue',cursive;font-size:2rem;letter-spacing:4px;color:var(--accent);text-align:center;margin-bottom:6px;">
+        SEÃ‡ENEKLER</h2>
+      <p id="opt-subtitle" style="text-align:center;color:var(--muted);font-size:.8rem;margin-bottom:24px;">Klavye
+        kÄ±sayollarÄ±nÄ± Ã¶zelleÅŸtir</p>
+      <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:24px;">
+        <div
+          style="display:flex;align-items:center;justify-content:space-between;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px 16px;">
+          <div>
+            <div id="opt-mark-label"
+              style="font-family:'Bebas Neue',cursive;font-size:.95rem;letter-spacing:1px;color:var(--text);">HARÄ°TA
+              Ä°ÅARETLEME</div>
+            <div id="opt-mark-desc" style="font-size:.72rem;color:var(--muted);margin-top:2px;">Fareyle tÄ±kla veya bu
+              tuÅŸa bas</div>
+          </div>
+          <button type="button" id="keybind-mark" class="keybind-btn" data-action="mark"
+            onclick="startRebind(this)">SPACE</button>
+        </div>
+        <div
+          style="display:flex;align-items:center;justify-content:space-between;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px 16px;">
+          <div>
+            <div id="opt-zoomin-label"
+              style="font-family:'Bebas Neue',cursive;font-size:.95rem;letter-spacing:1px;color:var(--text);">ZOOM ARTIR
+            </div>
+            <div id="opt-zoomin-desc" style="font-size:.72rem;color:var(--muted);margin-top:2px;">HaritayÄ± yakÄ±nlaÅŸtÄ±r
+            </div>
+          </div>
+          <button type="button" id="keybind-zoomin" class="keybind-btn" data-action="zoomin"
+            onclick="startRebind(this)">Equal</button>
+        </div>
+        <div
+          style="display:flex;align-items:center;justify-content:space-between;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px 16px;">
+          <div>
+            <div id="opt-zoomout-label"
+              style="font-family:'Bebas Neue',cursive;font-size:.95rem;letter-spacing:1px;color:var(--text);">ZOOM AZALT
+            </div>
+            <div id="opt-zoomout-desc" style="font-size:.72rem;color:var(--muted);margin-top:2px;">HaritayÄ± uzaklaÅŸtÄ±r
+            </div>
+          </div>
+          <button type="button" id="keybind-zoomout" class="keybind-btn" data-action="zoomout"
+            onclick="startRebind(this)">Minus</button>
+        </div>
+        <div
+          style="display:flex;align-items:center;justify-content:space-between;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px 16px;">
+          <div>
+            <div id="opt-zoomreset-label"
+              style="font-family:'Bebas Neue',cursive;font-size:.95rem;letter-spacing:1px;color:var(--text);">ZOOM
+              SIFIRLA</div>
+            <div id="opt-zoomreset-desc" style="font-size:.72rem;color:var(--muted);margin-top:2px;">HaritayÄ±
+              varsayÄ±lana dÃ¶ndÃ¼r</div>
+          </div>
+          <button type="button" id="keybind-zoomreset" class="keybind-btn" data-action="zoomreset"
+            onclick="startRebind(this)">KeyR</button>
+        </div>
+        <div
+          style="display:flex;align-items:center;justify-content:space-between;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px 16px;">
+          <div>
+            <div id="opt-next-label"
+              style="font-family:'Bebas Neue',cursive;font-size:.95rem;letter-spacing:1px;color:var(--text);">SONRAKÄ°
+              SORU</div>
+            <div id="opt-next-desc" style="font-size:.72rem;color:var(--muted);margin-top:2px;">Cevaptan sonra devam et
+            </div>
+          </div>
+          <button type="button" id="keybind-next" class="keybind-btn" data-action="next"
+            onclick="startRebind(this)">Enter</button>
+        </div>
+      </div>
+      <div id="rebind-hint"
+        style="text-align:center;color:var(--accent);font-size:.82rem;min-height:20px;margin-bottom:16px;"></div>
+      <div style="display:flex;gap:10px;">
+        <button type="button" onclick="resetKeybinds()"
+          style="flex:1;padding:11px;background:transparent;border:1px solid var(--border);border-radius:10px;color:var(--muted);font-family:'Bebas Neue',cursive;font-size:.9rem;letter-spacing:1px;cursor:pointer;touch-action:manipulation;"
+          id="opt-reset-btn">VARSAYILANA DONDUR</button>
+        <button type="button" onclick="closeOptions()"
+          style="flex:1;padding:11px;background:linear-gradient(135deg,var(--accent2),var(--accent));border:none;border-radius:10px;color:#000;font-family:'Bebas Neue',cursive;font-size:.9rem;letter-spacing:1px;cursor:pointer;touch-action:manipulation;"
+          id="opt-close-btn" onclick="closeOptions()">KAYDET</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- OYUNCU ARAMA MODALI -->
+  <div id="search-modal">
+    <div id="search-box">
+      <h2 style="font-family:'Bebas Neue',cursive;font-size:1.6rem;color:var(--accent);letter-spacing:3px;margin-bottom:16px;text-align:center;" id="search-title">ğŸ” OYUNCU ARA</h2>
+      <div style="display:flex;gap:8px;margin-bottom:14px;">
+        <input id="search-input" class="auth-input" type="text" placeholder="KullanÄ±cÄ± adÄ±..." maxlength="20"
+          style="margin-bottom:0;flex:1;" />
+        <button type="button" onclick="doPlayerSearch()" id="search-btn"
+          style="background:linear-gradient(135deg,var(--accent2),var(--accent));color:#000;border:none;border-radius:8px;padding:0 16px;font-family:'Bebas Neue',cursive;font-size:1rem;cursor:pointer;">ARA</button>
+      </div>
+      <div id="search-results" style="max-height:300px;overflow-y:auto;"></div>
+      <button type="button" onclick="closeSearchModal()"
+        style="width:100%;margin-top:14px;padding:11px;background:var(--bg);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:'Bebas Neue',cursive;font-size:.9rem;cursor:pointer;" id="search-close-btn">KAPAT</button>
+    </div>
+  </div>
+
+  <!-- OYUNCU PROFÄ°L MODALI -->
+  <div id="profile-modal">
+    <div id="profile-box">
+      <div class="profile-header">
+        <div class="profile-avatar-big" id="profile-avatar-big">?</div>
+        <div>
+          <div class="profile-username" id="profile-username">â€”</div>
+          <div id="profile-rank-badge" style="margin-top:4px;"></div>
+        </div>
+        <button type="button" onclick="closeProfileModal()"
+          style="margin-left:auto;background:transparent;border:none;color:var(--muted);font-size:1.4rem;cursor:pointer;">âœ•</button>
+      </div>
+      <div id="profile-private-notice" style="display:none;text-align:center;padding:20px;color:var(--muted);font-size:.9rem;">
+        ğŸ”’ <span id="profile-private-text">Bu oyuncunun istatistikleri gizli!</span>
+      </div>
+      <div id="profile-stats-content">
+        <!-- Offline istatistikler -->
+        <div class="profile-section-title" id="profile-offline-title">OFFLÄ°NE Ä°STATÄ°STÄ°KLER</div>
+        <div id="profile-offline-grid"></div>
+        <!-- Online istatistikler -->
+        <div class="profile-section-title" id="profile-online-title">ONLÄ°NE RANKLAR</div>
+        <div id="profile-online-grid"></div>
+      </div>
+      <!-- Gizlilik toggle (sadece kendi profilinde) -->
+      <div id="profile-privacy-toggle" style="display:none;margin-top:16px;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px 14px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <span style="font-size:.85rem;color:var(--text);" id="profile-privacy-label">Ä°statistiklerimi gizle</span>
+          <label class="mp-toggle">
+            <input type="checkbox" id="profile-privacy-check" onchange="toggleProfilePrivacy(this.checked)" />
+            <span class="mp-toggle-slider"></span>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LEADERBOARD MODAL -->
+  <div id="lb-modal" class="hidden">
+    <div id="lb-box">
+      <h2>ğŸ† LÄ°DERLÄ°K TABLOSU</h2>
+      <div id="lb-tabs" style="display:flex;gap:8px;margin:10px 0;">
+        <button type="button" id="lb-tab-world" class="lb-tab active" onclick="showLeaderboard(null,'world')">ğŸŒ
+          DÃœNYA</button>
+        <button type="button" id="lb-tab-europe" class="lb-tab" onclick="showLeaderboard(null,'europe')">ğŸ‡ªğŸ‡º
+          AVRUPA</button>
+        <button type="button" id="lb-tab-turkey" class="lb-tab" onclick="showLeaderboard(null,'turkey')">ğŸ‡¹ğŸ‡·
+          TÃœRKÄ°YE</button>
+        <button type="button" id="lb-tab-flag" class="lb-tab" onclick="showLeaderboard(null,'flag')">ğŸš© BAYRAK</button>
+      </div>
+      <div id="lb-subtitle">Tek oyundan alÄ±nan en yÃ¼ksek puanlar</div>
+      <div id="lb-orientation-note"
+        style="display:none;text-align:center;color:var(--accent);font-size:.78rem;margin-bottom:10px;padding:6px 10px;background:rgba(240,165,0,.08);border-radius:8px;border:1px solid rgba(240,165,0,.2);">
+        ğŸ“± Liderlik tablosunu dikey ekranda gÃ¶rÃ¼ntÃ¼lemeniz tavsiye edilir.</div>
+      <div id="lb-list">
+        <div class="lb-loading">YÃ¼kleniyor...</div>
+      </div>
+      <div id="lb-pagination" style="display:none;justify-content:center;gap:10px;margin-top:10px;"></div>
+      <button type="button" class="lb-close" onclick="closeLeaderboard()">KAPAT</button>
+      <button type="button" id="btn-reset-score" class="lb-close"
+        style="margin-top:6px;color:var(--red);border-color:var(--red);font-size:.75rem;"
+        onclick="resetMyScore()">SKORUMU SIFIRLA</button>
+    </div>
+  </div>
+
+  
+  
+  
+  
+  <!-- MULTIPLAYER MENU MODAL -->
+  <div id="mp-modal">
+    <!-- Screen: Main menu -->
+    <div id="mp-box">
+      <div id="mp-screen-main">
+        <h2 id="mp-main-h2">âš”ï¸ MULTIPLAYER</h2>
+        <div class="mp-sub" id="mp-main-sub">Play real-time with 2-5 players</div>
+        <div class="mp-error" id="mp-main-error"></div>
+        <button type="button" class="mp-btn" onclick="mpShowMatchmaking()"
+          id="mp-btn-matchmaking" style="background:linear-gradient(135deg,#1a7a4a,#2ecc71);">âš¡ RASTGELE
+          EÅLEÅTÄ°R</button>
+        <button type="button" class="mp-btn" onclick="mpShowCreate()" id="mp-btn-create">â• LOBÄ° OLUÅTUR</button>
+        <button type="button" class="mp-btn" onclick="mpShowBrowse()" id="mp-btn-browse">ğŸŒ AKTÄ°F LOBÄ°LER</button>
+        <button type="button" class="mp-btn secondary" onclick="mpShowJoin()" id="mp-btn-join"
+          style="font-size:.95rem;">ğŸ”— KOD Ä°LE KATIL</button>
+        <button type="button" class="mp-btn secondary" onclick="closeMultiplayerMenu()" id="mp-btn-back-main"
+          id="mp-btn-back-main">â† BACK</button>
+      </div>
+
+      <!-- Screen: Create lobby -->
+      <div id="mp-screen-create" style="display:none">
+        <h2 id="mp-create-h2">â• LOBÄ° OLUÅTUR</h2>
+        <div class="mp-sub" id="mp-create-sub">Lobi adÄ± gir ve ayarlarÄ± seÃ§</div>
+        <div class="mp-error" id="mp-create-error"></div>
+        <input class="mp-input" id="mp-create-name" placeholder="LOBÄ° ADI" maxlength="20"
+          style="text-transform:uppercase;letter-spacing:2px;font-size:1.1rem;text-align:center;font-family:'Bebas Neue',cursive;"
+          oninput="this.value=this.value.toUpperCase()" />
+        <div class="mp-toggle-row">
+          <span class="mp-toggle-label" id="mp-create-private-label">ğŸ”’ Åifreli lobi</span>
+          <label class="mp-toggle">
+            <input type="checkbox" id="mp-create-private-toggle" onchange="mpTogglePasswordField()" />
+            <span class="mp-toggle-slider"></span>
+          </label>
+        </div>
+        <div id="mp-create-password-row" style="display:none">
+          <input class="mp-input" id="mp-create-password" placeholder="Åifre belirle" maxlength="20" type="text" />
+        </div>
+        <button type="button" class="mp-btn" onclick="mpCreateLobby()" id="mp-create-go">ğŸš€ LOBÄ° OLUÅTUR</button>
+        <button type="button" class="mp-btn secondary" onclick="mpShowMain()" id="mp-back-create">â† GERÄ°</button>
+      </div>
+
+      <!-- Screen: Join lobby (code) -->
+      <div id="mp-screen-join" style="display:none">
+        <h2 id="mp-join-h2">ğŸ”— KOD Ä°LE KATIL</h2>
+        <div class="mp-sub" id="mp-join-sub">ArkadaÅŸÄ±ndan aldÄ±ÄŸÄ±n 4 harfli kodu gir</div>
+        <div class="mp-error" id="mp-join-error"></div>
+        <input class="mp-input" id="mp-join-code" placeholder="LOBBY CODE (4 CHARS)" maxlength="4"
+          style="text-transform:uppercase;letter-spacing:4px;font-size:1.4rem;text-align:center;font-family:'Bebas Neue',cursive;" />
+        <div id="mp-join-password-row" style="display:none">
+          <input class="mp-input" id="mp-join-password" placeholder="Lobi ÅŸifresi" maxlength="20" type="text" />
+        </div>
+        <button type="button" class="mp-btn" onclick="mpJoinLobbyByCode()" id="mp-join-go">GÄ°RÄ°Å YAP</button>
+        <button type="button" class="mp-btn secondary" onclick="mpShowMain()" id="mp-back-join">â† GERÄ°</button>
+      </div>
+
+      <!-- Screen: Matchmaking -->
+      <div id="mp-screen-matchmaking" style="display:none">
+        <!-- AÅŸama 1: Mod seÃ§ -->
+        <div id="mp-mm-select">
+          <h2>âš¡ HIZLI EÅLEÅTÄ°R</h2>
+          <div class="mp-sub" id="mp-mm-select-sub">Mod seÃ§ ve rankÄ±nÄ± gÃ¶r</div>
+          <div class="mm-rank-grid" id="mm-rank-grid">
+            <!-- JS ile doldurulacak -->
+          </div>
+          <button type="button" class="mp-btn" onclick="mmStartSearch()" id="mm-start-search-btn">ğŸ” EÅLEÅTÄ°R</button>
+          <button type="button" class="mp-btn secondary" onclick="mpShowMain()">â† GERÄ°</button>
+        </div>
+        <!-- AÅŸama 2: Arama -->
+        <div id="mp-mm-searching" style="display:none">
+          <h2 id="mp-mm-h2">âš¡ QUICK MATCH</h2>
+          <div class="mp-sub" id="mp-mm-sub"></div>
+          <div class="mp-error" id="mp-mm-error"></div>
+          <div style="text-align:center;padding:16px 0;">
+            <div id="mp-mm-spinner" style="font-size:2.5rem;margin-bottom:8px;">ğŸ”</div>
+            <div id="mp-mm-timer" style="font-family:'Bebas Neue',cursive;font-size:2.8rem;color:var(--accent);">20
+            </div>
+            <div style="color:var(--muted);font-size:.82rem;margin-top:4px;" id="mp-mm-hint">Looking for an opponentâ€¦</div>
+          </div>
+          <!-- AralÄ±k geniÅŸletme sorusu -->
+          <div id="mp-mm-expand-box"
+            style="display:none;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:10px;text-align:center;">
+            <div style="font-size:.88rem;color:var(--text);margin-bottom:10px;" id="mp-mm-expand-label">Rank aralÄ±ÄŸÄ±
+              geniÅŸletilsin mi?</div>
+            <div style="display:flex;gap:8px;">
+              <button type="button" class="mp-btn" id="mp-mm-expand-yes" onclick="mmExpandRange()"
+                style="flex:1;margin-bottom:0;padding:10px;">âœ“ EVET</button>
+              <button type="button" class="mp-btn danger" id="mp-mm-expand-no" onclick="mmDismissExpand()"
+                style="flex:1;margin-bottom:0;padding:10px;">âœ• HAYIR</button>
+            </div>
+          </div>
+          <button type="button" class="mp-btn secondary" onclick="mmCancel()" id="mp-mm-cancel">âœ• Ä°PTAL</button>
+        </div>
+      </div>
+
+      <!-- Screen: Browse lobbies -->
+      <div id="mp-screen-browse" style="display:none">
+        <h2 id="mp-browse-h2">ğŸŒ AKTÄ°F LOBÄ°LER</h2>
+        <div class="mp-sub" id="mp-browse-sub">AÃ§Ä±k lobiye tÄ±kla, ğŸ”’ ÅŸifreli lobiye ÅŸifre gir</div>
+        <div class="mp-error" id="mp-browse-error"></div>
+        <div id="mp-lobby-list">
+          <div class="mp-lobby-empty" id="mp-browse-empty">Searchingâ€¦</div>
+        </div>
+        <!-- Åifreli lobi iÃ§in gizli modal -->
+        <div id="mp-browse-pw-box"
+          style="display:none;background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:10px;">
+          <div style="font-size:.82rem;color:var(--muted);margin-bottom:8px;" id="mp-browse-pw-label">Bu lobi ÅŸifreli
+          </div>
+          <input class="mp-input" id="mp-browse-pw-input" placeholder="Åifreyi gir" maxlength="20" type="text" />
+          <div style="display:flex;gap:8px;">
+            <button type="button" class="mp-btn" onclick="mpBrowseJoinWithPw()" style="flex:1;margin-bottom:0">âœ“
+              GÄ°R</button>
+            <button type="button" class="mp-btn secondary" onclick="mpBrowseCancelPw()"
+              style="flex:0 0 auto;width:52px;margin-bottom:0">âœ•</button>
+          </div>
+        </div>
+        <button type="button" class="mp-btn secondary" onclick="mpRefreshBrowse()" id="mp-browse-refresh">ğŸ”„
+          YENÄ°LE</button>
+        <button type="button" class="mp-btn secondary" onclick="mpShowMain()" id="mp-back-browse">â† GERÄ°</button>
+      </div>
+
+      <!-- Screen: Lobby waiting room (host) -->
+      <div id="mp-screen-lobby-host" style="display:none">
+        <h2 id="mp-lobby-h2">ğŸ  LOBÄ°</h2>
+        <div class="mp-sub" id="mp-lobby-sub">Share this code with your friends</div>
+        <div class="mp-code-display" id="mp-lobby-code-display" onclick="mpCopyCode()" title="Click to copy">----</div>
+        <div class="mp-status" id="mp-host-status">Waiting for playersâ€¦</div>
+        <div class="mp-player-list" id="mp-host-player-list"></div>
+        <div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap;">
+          <button type="button" class="mp-mode-btn active" id="lobby-mode-world" onclick="mpLobbySetMode('world')"
+            ontouchend="event.preventDefault();mpLobbySetMode('world');">ğŸŒ</button>
+          <button type="button" class="mp-mode-btn" id="lobby-mode-europe" onclick="mpLobbySetMode('europe')"
+            ontouchend="event.preventDefault();mpLobbySetMode('europe');">ğŸ‡ªğŸ‡º</button>
+          <button type="button" class="mp-mode-btn" id="lobby-mode-turkey" onclick="mpLobbySetMode('turkey')"
+            ontouchend="event.preventDefault();mpLobbySetMode('turkey');">ğŸ‡¹ğŸ‡·</button>
+          <button type="button" class="mp-mode-btn" id="lobby-mode-flag" onclick="mpLobbySetMode('flag')"
+            ontouchend="event.preventDefault();mpLobbySetMode('flag');">ğŸš©</button>
+          <span id="lobby-mode-label"
+            style="color:var(--muted);font-size:.8rem;align-self:center;margin-left:4px;">DÃœNYA</span>
+        </div>
+        <div style="display:flex;gap:8px;">
+          <button type="button" class="mp-btn" id="mp-start-btn" onclick="mpStartGame()" style="flex:1">â–¶
+            BAÅLAT</button>
+          <button type="button" class="mp-btn danger" onclick="mpLeaveLobby()"
+            style="flex:0 0 auto;width:52px;font-size:1.4rem;padding:13px 0;">âœ•</button>
+        </div>
+      </div>
+
+      <!-- Screen: Lobby waiting room (guest) -->
+      <div id="mp-screen-lobby-guest" style="display:none">
+        <h2 id="mp-guest-h2">â³ HOST BEKLENÄ°YOR</h2>
+        <div class="mp-sub" id="mp-guest-sub">Hostu baÅŸlatmasÄ±nÄ± bekle</div>
+        <div class="mp-status" id="mp-guest-status">Lobiye baÄŸlandÄ±â€¦</div>
+        <div class="mp-player-list" id="mp-guest-player-list"></div>
+        <div id="mp-guest-mode-display" style="text-align:center;color:var(--muted);font-size:.85rem;margin:6px 0;">
+        </div>
+        <button type="button" class="mp-btn danger" onclick="mpLeaveLobby()" id="mp-leave-btn">LOBÄ°DEN AYRIL</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MULTIPLAYER RESULT OVERLAY -->
+  <!-- MULTIPLAYER BETWEEN-QUESTION LEADERBOARD -->
+
+  <!-- BAYRAK MODU EKRANI -->
+  <div id="flag-screen">
+    <div id="flag-portrait-hint"
+      style="display:none;background:#1a3a2a;border-bottom:1px solid #2e7d52;padding:6px 16px;text-align:center;font-size:.78rem;color:#81c784;width:100%;box-sizing:border-box;flex-shrink:0;">
+      ğŸ“± Bu mod dikey ekranda daha iyi gÃ¶rÃ¼nÃ¼r Â· This mode works best in portrait
+    </div>
+    <div id="flag-top-bar">
+      <button type="button" onclick="openFlagMenu()"
+        style="background:var(--bg);border:1px solid var(--border);border-radius:8px;width:34px;height:34px;color:var(--text);font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;touch-action:manipulation;-webkit-tap-highlight-color:transparent;">â˜°</button>
+      <div style="font-family:'Bebas Neue',cursive;font-size:1.1rem;letter-spacing:2px;color:var(--accent)">ğŸš© <span
+          id="flag-round-info">SORU 1/15</span></div>
+      <div id="flag-live-scores" style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;"></div>
+      <div style="font-family:'Bebas Neue',cursive;font-size:1.1rem;color:var(--muted)" id="flag-time-left">10</div>
+    </div>
+    <div id="flag-emoji"
+      style="display:flex;align-items:center;justify-content:center;padding:16px 0 10px;flex-shrink:0;"><img
+        id="flag-img" src="" alt="flag" loading="lazy"
+        style="max-width:min(320px,85vw);width:100%;height:auto;border-radius:8px;box-shadow:0 4px 24px rgba(0,0,0,.5);display:block;" />
+    </div>
+    <div id="flag-question-area">
+      <div id="flag-timer-bar-wrap">
+        <div id="flag-timer-bar" style="width:100%"></div>
+      </div>
+      <div id="flag-score-info"></div>
+      <div id="flag-players-scores"></div>
+      <div id="flag-input-row">
+        <input id="flag-input" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+          id="flag-input-placeholder" placeholder="Ãœlke adÄ±nÄ± yaz..." />
+        <button type="button" id="flag-submit-btn" onclick="flagSubmit()">âœ“</button>
+      </div>
+      <div id="flag-feedback"></div>
+      <div id="flag-hint-text"></div>
+    </div>
+  </div>
+
+  <!-- BAYRAK ARASI SKOR -->
+  <div id="flag-between-overlay"
+    style="display:none;position:fixed;inset:0;background:rgba(10,14,26,.97);align-items:center;justify-content:center;z-index:550;flex-direction:column;gap:16px;">
+    <div style="font-family:'Bebas Neue',cursive;font-size:2rem;letter-spacing:3px;color:var(--accent)"
+      id="flag-between-title">SKOR</div>
+    <div id="flag-between-answer" style="font-size:3rem;text-align:center;line-height:1.2;"></div>
+    <div id="flag-between-list" style="display:flex;flex-direction:column;gap:10px;width:90%;max-width:400px;"></div>
+    <div id="flag-between-next" style="color:var(--muted);font-size:.85rem;"></div>
+  </div>
+
+  <div id="mp-between-overlay">
+    <div id="mp-between-box">
+      <div class="mp-bq-header">
+        <div class="mp-bq-title" id="mp-bq-title">QUESTION 1 RESULTS</div>
+        <div class="mp-bq-sub" id="mp-bq-sub">After 1 of 12 questions</div>
+      </div>
+      <div id="mp-bq-list" style="margin-top:14px;"></div>
+      <div class="mp-waiting-msg" id="mp-bq-waiting">Waiting for host to continueâ€¦</div>
+      <button type="button" class="mp-btn mp-host-next-btn" id="mp-bq-next-btn" onclick="mpHostAdvance()"
+        style="display:none;">
+        â–¶ NEXT QUESTION
+      </button>
+    </div>
+  </div>
+
+  <div id="mp-result-overlay">
+    <div id="mp-result-box">
+      <h2 id="mp-result-title">ğŸ† GAME OVER</h2>
+      <div id="mp-result-list"></div>
+      <div id="mp-rank-change"></div>
+      <div id="mp-result-btns" style="display:flex;gap:8px;margin-top:16px;"></div>
+      <button type="button" class="mp-btn" onclick="mpBackToMenu()" style="margin-top:16px" id="mp-back-menu-btn">BACK
+        TO MENU</button>
+    </div>
+  </div>
+
+  <!-- RANK ATLAMA / YERLEÅÄ°M MODALI -->
+  <div id="rank-up-modal">
+    <div id="rank-up-box">
+      <div class="rup-title" id="rup-title">RANK UP!</div>
+      <div class="rup-sub" id="rup-sub"></div>
+      <div class="rup-cards" id="rup-cards"></div>
+      <button type="button" id="rank-up-close" onclick="closeRankUpModal()">TAMAM</button>
+    </div>
+  </div>
+
+  
+
+  
+  <!-- Firestore matchmaking agent -->
+  
+
+  <!-- Scripts will be concatenated here by build.js or included separately during dev -->
+  <script src="js/bundle.js"></script>\n</body>
+</html>
